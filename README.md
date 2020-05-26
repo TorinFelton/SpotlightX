@@ -2,9 +2,9 @@
 ![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
 
-WinBar is not a replacement for the Windows 10 Search Bar, but an improvement and general aide to the user that will be better at doing certain things than the Search Bar, and will eventually have custom commands that can be designed by the user and executed.
+WinBar is a minimal, simplistic command bar that makes launching programs or searching things a lot easier than they are with the default Windows 10 search bar. In the future, I intend to go beyond the basic feature set of the Windows 10 search bar and make even more useful commands, while maintaining the simple look and feel of the program throughout (and trying to keep it lightweight).
 
-The general motivation behind this was that sometimes the Windows 10 Search Bar can behave strangely and not do what the user would like, or doesn't have the shortcuts quickly available (and searching Bing for them instead...).
+The general motivation behind this was that sometimes the Windows 10 Search Bar can behave strangely and not do what the user would like, or doesn't have the shortcuts quickly available. For example, even if you type in the same few programs every day to launch, they take a while to be found and sometimes the first result that comes up is a Bing search instead of the program you have installed... WinBar doesn't do this, there is no weird determination of results or forcing Bing search down your throat, it just does what you need it to do, and disappears after.
 
 ## Current Features
 
