@@ -19,15 +19,14 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 
 ## Screenshots / Gifs
 
-The bar upon launch looks like this, and will disappear when you click off or press Esc:
-https://i.imgur.com/ZsW1MnZ.png
 
-When typing in the start of one of the start menu programs, it will autocomplete:
-https://i.imgur.com/ei8wNCW.gifv
+![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
+
+
+![When typing in the start of one of the start menu programs, it will autocomplete:](https://i.imgur.com/ei8wNCW.gifv)
+
 Pressing enter will run the program, and close the WinBar.
 
-Search function:
-https://i.imgur.com/DaagPV3.png
+![Search Function](https://i.imgur.com/DaagPV3.png)
 
-Simplistic error message to show invalid command input:
-https://i.imgur.com/TibVPGY.png
+![Simplistic Error Message - to show invalid command input](https://i.imgur.com/TibVPGY.png)
