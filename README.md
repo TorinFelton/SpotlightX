@@ -1,4 +1,5 @@
 # WinBar
+![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 WinBar is not a replacement for the Windows 10 Search Bar, but an improvement and general aide to the user that will be better at doing certain things than the Search Bar, and will eventually have custom commands that can be designed by the user and executed.
 
 The general motivation behind this was that sometimes the Windows 10 Search Bar can behave strangely and not do what the user would like, or doesn't have the shortcuts quickly available (and searching Bing for them instead...).
@@ -20,21 +21,21 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Ability to customise icons + style of WinBar (gradient, colouring, etc.)
 
 # General Look
-![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
-# Example autocompletion & program run
+
+## Example autocompletion & program run
 ![When typing in the start of one of the start menu programs, it will autocomplete:](https://i.imgur.com/ei8wNCW.gif)
 Typing and autocomplete are <b>not</b> slowed by the program, I have just slowly typed for demonstration.
 
 
 Pressing enter will run the program, and close the WinBar.
 
-# Search Function + Icon
+## Search Function + Icon
 ![Search Function](https://i.imgur.com/DaagPV3.png)
 
-# Launch Settings Function
+## Launch Settings Function
 ![Launch Settings Function](https://i.imgur.com/p7wMNS6.gif)
 Typing and autocomplete are <b>not</b> slowed by the program, I have just slowly typed for demonstration.
 
-# Error Icon
+## Error Icon
 ![Simplistic Error Message - to show invalid command input](https://i.imgur.com/TibVPGY.png)
