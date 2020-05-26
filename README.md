@@ -17,8 +17,6 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Custom actions for these commands to carry out (e.g run program, set setting, search something, etc.)
 - Ability to customise icons + style of WinBar (gradient, colouring, etc.)
 
-## Screenshots / Gifs
-
 # General Look
 ![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
