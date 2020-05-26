@@ -1,0 +1,43 @@
+﻿{
+  "commands": [
+    {
+      "Name": "launch",
+      "Icon": "Rocket"
+    },
+    {
+      "Name": "volume",
+      "Icon": "VolumeMedium"
+    },
+    {
+      "Name": "settings",
+      "Icon": "Cog"
+    },
+    {
+      "Name": "search",
+      "Icon": "SearchWeb",
+      "Actions": [
+        {
+          "SEARCH": "_allargs_" // _allargs_ is replaced with everything written after the command (in "search testing one two three", _allargs_ is "testing one two three")
+        }
+      ]
+    },
+    {
+      "Name": "exit",
+      "Icon": "ExitRun",
+      "Actions": [
+        {
+          "EXIT": "EXIT" // Exit command, quits program completely.
+        }
+      ]
+    },
+    { // Link to specific shortcut (.lnk) that can be ran as process
+      "Name": "discord",
+      "Icon": "Discord",
+      "Actions": [
+        {
+          "PROCESS": "C:\\Users\\TorinPC\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc\\Discord.lnk"
+        }
+      ]
+    }
+  ]
+}
