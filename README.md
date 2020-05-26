@@ -11,7 +11,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Hotkey (Alt + S) to bring up WinBar, program runs quietly in the background without interruption and window disappears when not needed
 - Search function for Google (though in future you'll be able to change search engine)
 - Ability to launch windows settings from simplistic command ("settings <settingpage>"), all settings page names are autocompletable.
-  The autocompletion for these setting names has used the ms-settings URI list for all locations ![here](https://github.com/TorinFelton/WinBar/blob/master/CleanUI/CleanUI/config/ms-settings.txt)
+  The autocompletion for these setting names has used the ms-settings URI list for all locations [here](https://github.com/TorinFelton/WinBar/blob/master/CleanUI/CleanUI/config/ms-settings.txt)
 
 ## Goals/Upcoming Ideas
 
@@ -24,14 +24,17 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 
 # Example autocompletion & program run
 ![When typing in the start of one of the start menu programs, it will autocomplete:](https://i.imgur.com/ei8wNCW.gif)
+Typing and autocomplete are <b>not</b> slowed by the program, I have just slowly typed for demonstration.
+
 
 Pressing enter will run the program, and close the WinBar.
 
 # Search Function + Icon
 ![Search Function](https://i.imgur.com/DaagPV3.png)
 
-# Launch Settings Function - Supports setting page autocompletion
+# Launch Settings Function
 ![Launch Settings Function](https://i.imgur.com/p7wMNS6.gif)
+Typing and autocomplete are <b>not</b> slowed by the program, I have just slowly typed for demonstration.
 
 # Error Icon
 ![Simplistic Error Message - to show invalid command input](https://i.imgur.com/TibVPGY.png)
