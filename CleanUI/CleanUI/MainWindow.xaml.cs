@@ -16,10 +16,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using AudioSwitcher.AudioApi.CoreAudio;
 using Newtonsoft.Json;
 using System.Windows.Interop;
 using Microsoft.Win32;
+using Newtonsoft.Json.Serialization;
 
 namespace CleanUI
 {
@@ -72,7 +72,12 @@ namespace CleanUI
             CommandTb.GotFocus += new RoutedEventHandler(CommandTb_GotFocus);
             CommandTb.LostFocus += new RoutedEventHandler(CommandTb_LostFocus);
 
-            FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(Properties.Settings.Default.SettingsPath));
+            var settings = new JsonSerializerSettings();
+
+            
+
+            FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(Properties.Settings.Default.SettingsPath + "settings.json"));
+
             ValidCommands = new Dictionary<string, Command>();
             foreach (Command cmd in FSettings.Commands)
             {
@@ -148,15 +153,35 @@ namespace CleanUI
 
         private void Autocomplete()
         {
-            foreach (string command in AutocompleteList)
+            if (CommandTb.Text.Split(' ').Length < 2)
             {
-                if (command.ToLower().StartsWith(CommandTb.Text.ToLower())) // Make both lower case to avoid not autocompleting when not capitalised
+                foreach (string command in AutocompleteList)
                 {
-                    CommandTb.Text = command + " ";
-                    changeIcon();
-                    CommandTb.Select(CommandTb.Text.Length, 0); // move cursor to end of textbox
+                    if (command.ToLower().StartsWith(CommandTb.Text.ToLower())) // Make both lower case to avoid not autocompleting when not capitalised
+                    {
+                        CommandTb.Text = command + " ";
+                        changeIcon();
+                    }
                 }
+            } else // Autocompleting an argument, not a command
+            {
+                try
+                {
+                    Command thisCommand = ValidCommands[CommandTb.Text.Split(' ')[0]];
+                    if (thisCommand.Name == "settings") // Autocomplete Settings args
+                    {
+                        String argument = CommandTb.Text.Split(' ')[1];
+                        List<string> autoLines = System.IO.File.ReadAllLines(Properties.Settings.Default.SettingsPath + "ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
+                        if (autoLines.Count > 0 )
+                        {
+                            // Replace unfinished argument with full one
+                            CommandTb.Text = CommandTb.Text.Split(' ')[0] + " " + autoLines[0].Substring(12);
+                        }
+                    }
+                }
+                catch { }
             }
+            CommandTb.Select(CommandTb.Text.Length, 0); // move cursor to end of textbox
         }
 
         private void RunCommand(string text)
@@ -168,6 +193,8 @@ namespace CleanUI
                 try
                 {
                     this.Hide();
+                
+
 
                     foreach (Dictionary<string, string> action in ValidCommands[SplitCommand[0].ToLower()].Actions)
                     {
@@ -178,6 +205,7 @@ namespace CleanUI
                 }
                 catch
                 {
+                    recentLaunch = true;
                     this.Hide();
                     CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.Apps;
                     Process.Start(ProgramPaths[text.Trim()]);
@@ -208,7 +236,7 @@ namespace CleanUI
             }
             else if (type == "PROCESS")
             {
-                Process.Start(arguments);
+                Process.Start(arguments.Trim());
             }
         }
 
@@ -240,7 +268,6 @@ namespace CleanUI
             {
                 if (e.Key == Key.Enter) // Enter the command, run it
                 {
-                    recentLaunch = true;
                     RunCommand(CommandTb.Text);
                 }
                 else if (e.Key == Key.Tab)

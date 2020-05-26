@@ -30,7 +30,6 @@ C:\Users\TorinPC\source\repos\CleanUI\CleanUI\bin\Debug\AudioSwitcher.AudioApi.d
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\CleanUI.exe.config
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\CleanUI.exe
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\CleanUI.pdb
-C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\AudioSwitcher.AudioApi.CoreAudio.dll
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\AudioSwitcher.AudioApi.dll
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\MahApps.Metro.IconPacks.Core.dll
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\MahApps.Metro.IconPacks.Material.dll
@@ -56,3 +55,19 @@ C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Debug\CleanUI.cs
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Debug\CleanUI.csproj.CopyComplete
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Debug\CleanUI.exe
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Debug\CleanUI.pdb
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Buffers.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Memory.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.ValueTuple.dll
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Buffers.xml
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Memory.xml
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\bin\Debug\System.ValueTuple.xml

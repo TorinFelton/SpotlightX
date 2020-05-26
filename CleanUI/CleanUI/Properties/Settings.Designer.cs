@@ -25,7 +25,7 @@ namespace CleanUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\TorinPC\\source\\repos\\CleanUI\\CleanUI\\config\\settings.json")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\TorinPC\\source\\repos\\WinBar\\WinBar\\CleanUI\\CleanUI\\config\\")]
         public string SettingsPath {
             get {
                 return ((string)(this["SettingsPath"]));
