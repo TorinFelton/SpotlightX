@@ -23,7 +23,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 ![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
 
-![When typing in the start of one of the start menu programs, it will autocomplete:](https://i.imgur.com/ei8wNCW.gifv)
+![When typing in the start of one of the start menu programs, it will autocomplete:](https://i.imgur.com/ei8wNCW.gif)
 
 Pressing enter will run the program, and close the WinBar.
 
