@@ -102,6 +102,7 @@ namespace CleanUI
 
             foreach (string prog in ProgramList)
             {
+                Console.WriteLine("Adding program: " + prog);
                 ProgramPaths[System.IO.Path.GetFileNameWithoutExtension(prog).ToString().Trim()] = prog; // Add file name (without extension) and file path to dict
                 AutocompleteList.Add(System.IO.Path.GetFileNameWithoutExtension(prog).ToString().Trim());
             }
