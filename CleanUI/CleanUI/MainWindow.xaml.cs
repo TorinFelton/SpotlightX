@@ -267,6 +267,10 @@ namespace CleanUI
                 }
                 catch (Exception e) { }
             }
+            else if (ProgramPaths.ContainsKey(CommandTb.Text.Trim())) // Startmenu program
+            {
+                CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.ArrowUpCircle;
+            }
         }
 
         private void CommandTb_TextChanged(object sender, TextChangedEventArgs e)
