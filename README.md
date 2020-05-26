@@ -10,6 +10,8 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Minimialistic Icons & No scary error messages
 - Hotkey (Alt + S) to bring up WinBar, program runs quietly in the background without interruption and window disappears when not needed
 - Search function for Google (though in future you'll be able to change search engine)
+- Ability to launch windows settings from simplistic command ("settings <settingpage>"), all settings page names are autocompletable.
+  The autocompletion for these setting names has used the ms-settings URI list for all locations ![here](https://github.com/TorinFelton/WinBar/blob/master/CleanUI/CleanUI/config/ms-settings.txt)
 
 ## Goals/Upcoming Ideas
 
@@ -27,6 +29,9 @@ Pressing enter will run the program, and close the WinBar.
 
 # Search Function + Icon
 ![Search Function](https://i.imgur.com/DaagPV3.png)
+
+# Launch Settings Function - Supports setting page autocompletion
+![Launch Settings Function](https://i.imgur.com/p7wMNS6.gif)
 
 # Error Icon
 ![Simplistic Error Message - to show invalid command input](https://i.imgur.com/TibVPGY.png)
