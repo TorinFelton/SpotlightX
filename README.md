@@ -21,6 +21,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Custom commands implemented via JSON (hopefully with a UI for the user to edit the JSON with)
 - Custom actions for these commands to carry out (e.g run program, set setting, search something, etc.)
 - Ability to customise icons + style of WinBar (gradient, colouring, etc.)
+- Add the ability to tab through all suggestions not just one
 
 # General Look
 
