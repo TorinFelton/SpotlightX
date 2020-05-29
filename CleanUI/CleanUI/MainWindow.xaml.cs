@@ -33,8 +33,11 @@ namespace CleanUI
         private static bool FirstActivation = true;
         private Settings FSettings;
         private Dictionary<string, Command> ValidCommands;
-        private List<String> AutocompleteList = new List<string>();
-        private List<String> ProgramList = new List<string>();
+        private List<String> AutocompleteList = new List<String>();
+        private List<String> MatchesList = new List<String>();
+        private int MatchIndex = 0;
+        private bool MultipleAutocompleteOptions = false;
+        private List<String> ProgramList = new List<String>();
         private Dictionary<String, String> ProgramPaths = new Dictionary<String, String>();
         private bool recentLaunch = false;
         /*
@@ -45,6 +48,7 @@ namespace CleanUI
          *  every single line, the only thing I can do is leave a boolean temporarily set to counteract the second running of it on that specific method being run.
          *  You will see this at the top of the KeyDown event for CommandTb.
          */
+
 
         [DllImport("User32.dll")]
         private static extern bool RegisterHotKey(
@@ -87,18 +91,17 @@ namespace CleanUI
 
             string UserStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs";
             string StartMenuPath = System.IO.Path.GetPathRoot(Environment.SystemDirectory) + @"ProgramData\Microsoft\Windows\Start Menu\Programs";
+            Console.WriteLine(StartMenuPath);
 
-
-            ProgramList.AddRange(Directory.GetFiles(StartMenuPath).Where(x => !x.EndsWith("ini")).ToList<string>());
-            ProgramList.AddRange(Directory.GetFiles(UserStartMenuPath).Where(x => !x.EndsWith("ini")).ToList<string>());
+            ProgramList.AddRange(Directory.GetFiles(StartMenuPath).Where(x => x.EndsWith("lnk")).ToList<string>());
+            ProgramList.AddRange(Directory.GetFiles(UserStartMenuPath).Where(x => x.EndsWith("lnk")).ToList<string>());
 
             List<DirectoryInfo> StartMenuDirs = new DirectoryInfo(StartMenuPath).GetDirectories().Where(x => (x.Attributes & FileAttributes.Hidden) == 0).ToList<DirectoryInfo>();
             StartMenuDirs.AddRange(new DirectoryInfo(UserStartMenuPath).GetDirectories().Where(x => (x.Attributes & FileAttributes.Hidden) == 0).ToList<DirectoryInfo>());
 
             foreach (DirectoryInfo dir in StartMenuDirs)
             {
-
-                ProgramList.AddRange(Directory.GetFiles(dir.FullName).Where(x => (x.Split(' ').Length < 4 && !x.EndsWith("ini") ) ) ); // Program shortcuts that aren't things like "WinRaR/What is new in latest version" that will clutter the autocomplete.
+                ProgramList.AddRange(Directory.GetFiles(dir.FullName).Where(x => (x.Split(' ').Length < 5 && x.EndsWith("lnk") ) ) ); // Short-named program shortcuts to make sure the autocomplete isn't too long
 
                 
             }
@@ -116,7 +119,7 @@ namespace CleanUI
         public void CommandTb_GotFocus(object sender, EventArgs e)
         {
 
-
+            ClearAutocompleteOptions();
             if (!FirstActivation)
             {
                 if (CommandTb.Text == "Type a command...")
@@ -148,40 +151,65 @@ namespace CleanUI
             if (e.Key == Key.Escape) // Escape, close the window
             {
                 this.Hide();
+            } else if (MultipleAutocompleteOptions && e.Key != Key.Tab)
+            {
+                ClearAutocompleteOptions();
             }
         }
 
         private void Autocomplete()
         {
-            if (CommandTb.Text.Split(' ').Length < 2)
+            if (MultipleAutocompleteOptions)
             {
-                foreach (string command in AutocompleteList)
+                MatchIndex++;
+                if (MatchIndex == MatchesList.Count) MatchIndex = 0;
+                CommandTb.Text = MatchesList[MatchIndex] + " ";
+            }
+            else
+            {
+                if (CommandTb.Text.Split(' ').Length == 1)
                 {
-                    if (command.ToLower().StartsWith(CommandTb.Text.ToLower())) // Make both lower case to avoid not autocompleting when not capitalised
+                    MatchesList = AutocompleteList.Where(x => x.ToLower().StartsWith(CommandTb.Text.ToLower())).ToList();
+                    MatchesList.Sort();
+                    MatchesList = MatchesList.Distinct().ToList();
+                    if (MatchesList.Count > 0)
                     {
-                        CommandTb.Text = command + " ";
+                        CommandTb.Text = MatchesList[0] + " ";
                         changeIcon();
-                    }
-                }
-            } else // Autocompleting an argument, not a command
-            {
-                try
-                {
-                    Command thisCommand = ValidCommands[CommandTb.Text.Split(' ')[0]];
-                    if (thisCommand.Name == "settings") // Autocomplete Settings args
-                    {
-                        String argument = CommandTb.Text.Split(' ')[1];
-                        List<string> autoLines = System.IO.File.ReadAllLines(Properties.Settings.Default.SettingsPath + "ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
-                        if (autoLines.Count > 0 )
+                        if (MatchesList.Count > 1)
                         {
-                            // Replace unfinished argument with full one
-                            CommandTb.Text = CommandTb.Text.Split(' ')[0] + " " + autoLines[0].Substring(12);
+                            MultipleAutocompleteOptions = true;
+                            MatchIndex = 0;
                         }
                     }
                 }
-                catch { }
+                else // Autocompleting an argument, not a command
+                {
+                    try
+                    {
+                        Command thisCommand = ValidCommands[CommandTb.Text.Split(' ')[0]];
+                        if (thisCommand.Name == "settings") // Autocomplete Settings args
+                        {
+                            String argument = CommandTb.Text.Split(' ')[1];
+                            List<string> autoLines = System.IO.File.ReadAllLines(Properties.Settings.Default.SettingsPath + "ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
+                            if (autoLines.Count > 0)
+                            {
+                                // Replace unfinished argument with full one
+                                CommandTb.Text = CommandTb.Text.Split(' ')[0] + " " + autoLines[0].Substring(12);
+                            }
+                        }
+                    }
+                    catch { }
+                }
             }
             CommandTb.Select(CommandTb.Text.Length, 0); // move cursor to end of textbox
+        }
+
+        private void ClearAutocompleteOptions()
+        {
+            MatchesList.Clear();
+            MultipleAutocompleteOptions = false;
+            MatchIndex = 0;
         }
 
         private void RunCommand(string text)
