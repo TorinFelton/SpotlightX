@@ -1,4 +1,4 @@
-# WinBar
+# SpotlightX
 ![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
 
