@@ -1,7 +1,10 @@
 # WinBar
-WinBar is not a replacement for the Windows 10 Search Bar, but an improvement and general aide to the user that will be better at doing certain things than the Search Bar, and will eventually have custom commands that can be designed by the user and executed.
+![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
-The general motivation behind this was that sometimes the Windows 10 Search Bar can behave strangely and not do what the user would like, or doesn't have the shortcuts quickly available (and searching Bing for them instead...).
+
+WinBar is a minimal, simplistic command bar that makes launching programs or searching things a lot easier than they are with the default Windows 10 search bar. In the future, I intend to go beyond the basic feature set of the Windows 10 search bar and make even more useful commands, while maintaining the simple look and feel of the program throughout (and trying to keep it lightweight).
+
+The general motivation behind this was that sometimes the Windows 10 Search Bar can behave strangely and not do what the user would like, or doesn't have the shortcuts quickly available. For example, even if you type in the same few programs every day to launch, they take a while to be found and sometimes the first result that comes up is a Bing search instead of the program you have installed... WinBar doesn't do this, there is no weird determination of results or forcing Bing search down your throat, it just does what you need it to do, and disappears after.
 
 ## Current Features
 
@@ -10,23 +13,32 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Minimialistic Icons & No scary error messages
 - Hotkey (Alt + S) to bring up WinBar, program runs quietly in the background without interruption and window disappears when not needed
 - Search function for Google (though in future you'll be able to change search engine)
+- Ability to launch windows settings from simplistic command ("settings <settingpage>"), all settings page names are autocompletable.
+  The autocompletion for these setting names has used the ms-settings URI list for all locations [here](https://github.com/TorinFelton/WinBar/blob/master/CleanUI/CleanUI/config/ms-settings.txt)
 
 ## Goals/Upcoming Ideas
 
 - Custom commands implemented via JSON (hopefully with a UI for the user to edit the JSON with)
 - Custom actions for these commands to carry out (e.g run program, set setting, search something, etc.)
 - Ability to customise icons + style of WinBar (gradient, colouring, etc.)
+- Add the ability to tab through all suggestions not just one
 
 # General Look
-![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
-# Example autocompletion & program run
+
+## Example autocompletion & program run
 ![When typing in the start of one of the start menu programs, it will autocomplete:](https://i.imgur.com/ei8wNCW.gif)
+Typing and autocomplete are <b>not</b> slowed by the program, I have just slowly typed for demonstration.
+
 
 Pressing enter will run the program, and close the WinBar.
 
-# Search Function + Icon
+## Search Function + Icon
 ![Search Function](https://i.imgur.com/DaagPV3.png)
 
-# Error Icon
+## Launch Settings Function
+![Launch Settings Function](https://i.imgur.com/p7wMNS6.gif)
+Typing and autocomplete are <b>not</b> slowed by the program, I have just slowly typed for demonstration.
+
+## Error Icon
 ![Simplistic Error Message - to show invalid command input](https://i.imgur.com/TibVPGY.png)
