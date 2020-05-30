@@ -30,8 +30,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 Typing and autocomplete are <b>not</b> slowed by the program, I have just slowly typed for demonstration.
 
 
-Pressing enter will run the program, and close the 
-.
+Pressing enter will run the program, and close the window.
 
 ## Search Function + Icon
 ![Search Function](https://i.imgur.com/DaagPV3.png)
