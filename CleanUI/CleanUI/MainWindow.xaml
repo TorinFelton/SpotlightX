@@ -12,12 +12,9 @@
         LostFocus="CommandTb_LostFocus"
         MouseDown="Window_MouseDown" WindowStartupLocation="CenterScreen"
         KeyDown="EnterCommand" ShowInTaskbar="False"
-        >
+        Topmost="True">
     <Grid>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <Grid Name="MainGrid">
 
             <Border CornerRadius="10" Grid.RowSpan="2">
                 <Border.Background>

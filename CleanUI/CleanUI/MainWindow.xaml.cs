@@ -71,6 +71,7 @@ namespace CleanUI
         public MainWindow()
         {
             InitializeComponent();
+
             this.Activated += new EventHandler(CommandTb_GotFocus);
             this.Deactivated += new EventHandler(CommandTb_LostFocus);
             CommandTb.GotFocus += new RoutedEventHandler(CommandTb_GotFocus);
@@ -91,7 +92,6 @@ namespace CleanUI
 
             string UserStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs";
             string StartMenuPath = System.IO.Path.GetPathRoot(Environment.SystemDirectory) + @"ProgramData\Microsoft\Windows\Start Menu\Programs";
-            Console.WriteLine(StartMenuPath);
 
             ProgramList.AddRange(Directory.GetFiles(StartMenuPath).Where(x => x.EndsWith("lnk")).ToList<string>());
             ProgramList.AddRange(Directory.GetFiles(UserStartMenuPath).Where(x => x.EndsWith("lnk")).ToList<string>());
@@ -144,6 +144,7 @@ namespace CleanUI
         {
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
+
         }
 
         private void EnterCommand(object sender, KeyEventArgs e)
