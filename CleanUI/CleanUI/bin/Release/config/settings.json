@@ -1,0 +1,48 @@
+﻿{
+  "commands": [
+    {
+      "Name": "launch",
+      "Icon": "Rocket"
+    },
+    {
+      "Name": "volume",
+      "Icon": "VolumeMedium"
+    },
+    {
+      "Name": "search",
+      "Icon": "SearchWeb",
+      "Actions": [
+        {
+          "SEARCH": "_allargs_"
+        }
+      ]
+    },
+    {
+      "Name": "exit",
+      "Icon": "ExitRun",
+      "Actions": [
+        {
+          "EXIT": "EXIT"
+        }
+      ]
+    },
+    {
+      "Name": "discord",
+      "Icon": "Discord",
+      "Actions": [
+        {
+          "PROCESS": "C:\\Users\\TorinPC\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc\\Discord.lnk"
+        }
+      ]
+    },
+    {
+      "Name": "settings",
+      "Icon": "Cog",
+      "Actions": [
+        {
+          "PROCESS": "ms-settings:_arg2_"
+        }
+      ]
+    }
+  ]
+}

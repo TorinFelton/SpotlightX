@@ -164,6 +164,7 @@ namespace CleanUI
                 MatchIndex++;
                 if (MatchIndex == MatchesList.Count) MatchIndex = 0;
                 CommandTb.Text = MatchesList[MatchIndex] + " ";
+                changeIcon();
             }
             else
             {
