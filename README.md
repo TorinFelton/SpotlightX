@@ -17,7 +17,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
   
 Anything you type after "search" will be searched as a whole.
 
-### <program>
+### program name
   Typing in a program or a bit of a program name and pressing tab will autocomplete it (then run when pressing enter)
   Programs will only be recognised if they are in the start menu folder for the user or pc.
 ### settings <setting>
