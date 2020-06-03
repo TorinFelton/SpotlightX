@@ -10,9 +10,10 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Alpha V0.1 (Expect bugs!) https://github.com/TorinFelton/SpotlightX/tree/master/CleanUI/SpotlightSetup/Release
 
 ## Commands & Basic Usage
-### Press TAB to autocomplete a command or program name to run
 
-### Search XXX XXX XXX
+#### Press TAB to autocomplete a command or program name to run
+
+### search <something to search>
   
 Anything you type after "search" will be searched as a whole.
 
