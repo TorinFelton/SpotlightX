@@ -9,6 +9,20 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 ## Install
 - Alpha V0.1 (Expect bugs!) https://github.com/TorinFelton/SpotlightX/tree/master/CleanUI/SpotlightSetup/Release
 
+## Commands & Basic Usage
+- Press TAB to autocomplete a command or program name to run
+
+- Search XXX XXX XXX
+  Anything you type after "search" will be searched as a whole.
+- <program>
+  Typing in a program or a bit of a program name and pressing tab will autocomplete it (then run when pressing enter)
+  Programs will only be recognised if they are in the start menu folder for the user or pc.
+- settings <setting>
+  Setting pages are autocompletable
+- exit
+  Fully kills the program, instead of just hiding it in the background
+  
+
 ## Current Features
 
 - All shortcuts in the System's start menu & the user's start menu will be loaded and can be ran directly from the bar
