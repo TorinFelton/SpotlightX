@@ -13,14 +13,18 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 - Press TAB to autocomplete a command or program name to run
 
 - Search XXX XXX XXX
-  Anything you type after "search" will be searched as a whole.
+  
+Anything you type after "search" will be searched as a whole.
 - <program>
-  Typing in a program or a bit of a program name and pressing tab will autocomplete it (then run when pressing enter)
+  
+Typing in a program or a bit of a program name and pressing tab will autocomplete it (then run when pressing enter)
   Programs will only be recognised if they are in the start menu folder for the user or pc.
 - settings <setting>
-  Setting pages are autocompletable
+
+Setting pages are autocompletable
 - exit
-  Fully kills the program, instead of just hiding it in the background
+  
+Fully kills the program, instead of just hiding it in the background
   
 
 ## Current Features
