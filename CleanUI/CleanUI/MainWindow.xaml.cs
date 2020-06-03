@@ -79,9 +79,8 @@ namespace CleanUI
 
             var settings = new JsonSerializerSettings();
 
-            
 
-            FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(Properties.Settings.Default.SettingsPath + "settings.json"));
+            FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(Directory.GetCurrentDirectory() + @"\config\settings.json"));
 
             ValidCommands = new Dictionary<string, Command>();
             foreach (Command cmd in FSettings.Commands)
@@ -192,7 +191,8 @@ namespace CleanUI
                         if (thisCommand.Name == "settings") // Autocomplete Settings args
                         {
                             String argument = CommandTb.Text.Split(' ')[1];
-                            List<string> autoLines = System.IO.File.ReadAllLines(Properties.Settings.Default.SettingsPath + "ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
+                            List<string> autoLines = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() + @"\config\ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
+                            // Only load into memory when needed, and it's not a large file - just a list of settings pages.
                             if (autoLines.Count > 0)
                             {
                                 // Replace unfinished argument with full one
