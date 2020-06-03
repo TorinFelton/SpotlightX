@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_021377D824B24A44A5A53CC28E1BFEDA"
+        "MsmKey" = "8:_1E3CA10E7CA54277A18BE711660301CC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -75,12 +75,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8B3D64BEC2AB43858602C191A39EDDEB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A2CE2F5E4101D3AC24FC87E0DDC69AAB"
         "OwnerKey" = "8:_F1391A4686CAE19509E083505C1857E6"
         "MsmSig" = "8:_UNDEFINED"
@@ -125,6 +119,12 @@
         {
         "MsmKey" = "8:_C50692402394C7648B8612E62F8CBDCC"
         "OwnerKey" = "8:_F1EC2A656E694630910E5AC4E7050DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C9C734E16AC540B5A3D9BDF2FF3EA83D"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -354,9 +354,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_021377D824B24A44A5A53CC28E1BFEDA"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1E3CA10E7CA54277A18BE711660301CC"
             {
-            "SourcePath" = "8:..\\CleanUI\\config\\settings.json"
+            "SourcePath" = "8:..\\CleanUI\\bin\\Debug\\config\\settings.json"
             "TargetName" = "8:settings.json"
             "Tag" = "8:"
             "Folder" = "8:_CD698004EF58446D8300426C83260413"
@@ -549,26 +549,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8B3D64BEC2AB43858602C191A39EDDEB"
-            {
-            "SourcePath" = "8:..\\CleanUI\\config\\ms-settings.txt"
-            "TargetName" = "8:ms-settings.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_CD698004EF58446D8300426C83260413"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A2CE2F5E4101D3AC24FC87E0DDC69AAB"
             {
             "AssemblyRegister" = "3:1"
@@ -722,6 +702,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C9C734E16AC540B5A3D9BDF2FF3EA83D"
+            {
+            "SourcePath" = "8:..\\CleanUI\\bin\\Debug\\config\\ms-settings.txt"
+            "TargetName" = "8:ms-settings.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_CD698004EF58446D8300426C83260413"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CFC10DB55C99ED23229120085AB61D0B"
@@ -927,7 +927,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SpotlightX"
         "ProductCode" = "8:{39235695-08E0-46EE-8654-F469495F073E}"
-        "PackageCode" = "8:{5DAFB9B8-DA3E-4584-925A-1A1B0ADA7414}"
+        "PackageCode" = "8:{EBE249D0-CEB1-463B-AEB3-DFAC046A9B43}"
         "UpgradeCode" = "8:{F094CBE2-970B-436A-ABCF-971A9E5F5CED}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
