@@ -10,7 +10,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 
 | Release Version | Download |
 | --------------- |:-------------:|
-| 0.0.1           | [Download](https://github.com/TorinFelton/SpotlightX/tree/master/STABLE-RELEASES/0.0.1) |
+| 0.0.1           | [Download](https://github.com/TorinFelton/SpotlightX/blob/master/STABLE-RELEASES/0.0.1/SpotlightSetup.msi) |
 
 
 ## Commands & Basic Usage
