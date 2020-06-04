@@ -13,22 +13,27 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 
 #### Press TAB to autocomplete a command or program name to run
 
-### search <something to search>
+### ```addpath``` OR ```removepath```
+If you want to add more programs or files to be able to run, simply run the command ```addpath <put in a folder path>``` and every file in that folder will be permanently added to the command's AppFolders path in settings.json, meaning you can autocomplete and run anything in that folder.
+Running these two commands will restart the application as it must reload all the autocompletions added from adding those paths.
+
+### ```search <something to search>```
   
 Anything you type after "search" will be searched as a whole.
 
-### program name
+### ```program name```
   Typing in a program or a bit of a program name and pressing tab will autocomplete it (then run when pressing enter).
   Programs will only be recognised if they are in the start menu folder for the user or pc.
-### settings <setting>
+### ```settings <setting>```
   Setting pages are autocompletable
-### exit
+### ```exit```
   Fully kills the program, instead of just hiding it in the background
   
 
 ## Current Features
 
 - All shortcuts in the System's start menu & the user's start menu will be loaded and can be ran directly from the bar
+- You can load in your own files to be able to run by adding the folder there in via the ```addpath``` and ```removepath``` commands (see above)
 - Working tab-autocompletion based on available programs/commands
 - Minimialistic Icons & No scary error messages
 - Hotkey (Alt + S) to bring up SpotlightX, program runs quietly in the background without interruption and window disappears when not needed
