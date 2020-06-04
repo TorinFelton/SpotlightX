@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_225B19887D3E4CEEB9E19EA14F6D4CD9"
+        "MsmKey" = "8:_04195044684843429A12A161C0BBB617"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -47,6 +47,12 @@
         {
         "MsmKey" = "8:_2BB2B491355E686059FE2E3E96FDCF9A"
         "OwnerKey" = "8:_F1EC2A656E694630910E5AC4E7050DFB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3E01D902618B4869A8F8C790A38F0BE9"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -89,12 +95,6 @@
         {
         "MsmKey" = "8:_A2CE2F5E4101D3AC24FC87E0DDC69AAB"
         "OwnerKey" = "8:_F1EC2A656E694630910E5AC4E7050DFB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A5FC1F9AC95342CD8BE6DCE1DF5105CE"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -354,9 +354,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_225B19887D3E4CEEB9E19EA14F6D4CD9"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_04195044684843429A12A161C0BBB617"
             {
-            "SourcePath" = "8:..\\CleanUI\\bin\\Release\\config\\ms-settings.txt"
+            "SourcePath" = "8:..\\..\\..\\..\\..\\..\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\SpotlightXConfig\\config\\ms-settings.txt"
             "TargetName" = "8:ms-settings.txt"
             "Tag" = "8:"
             "Folder" = "8:_DD31FB02813B4CC09A7A2E8FA5FFD726"
@@ -465,6 +465,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E01D902618B4869A8F8C790A38F0BE9"
+            {
+            "SourcePath" = "8:..\\..\\..\\..\\..\\..\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\SpotlightXConfig\\config\\settings.json"
+            "TargetName" = "8:settings.json"
+            "Tag" = "8:"
+            "Folder" = "8:_DD31FB02813B4CC09A7A2E8FA5FFD726"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_42E195B63D1083BE452D462724030EEB"
@@ -578,26 +598,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A5FC1F9AC95342CD8BE6DCE1DF5105CE"
-            {
-            "SourcePath" = "8:..\\CleanUI\\bin\\Release\\config\\settings.json"
-            "TargetName" = "8:settings.json"
-            "Tag" = "8:"
-            "Folder" = "8:_DD31FB02813B4CC09A7A2E8FA5FFD726"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B51F65581CABBC660F6463A2D55EB348"
@@ -949,7 +949,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SpotlightX"
         "ProductCode" = "8:{39235695-08E0-46EE-8654-F469495F073E}"
-        "PackageCode" = "8:{4E2CBF3F-3871-4CBD-AC50-8A6871BCB04C}"
+        "PackageCode" = "8:{5A76F381-1AA9-4FEB-9ADA-6DA3B38C1A9F}"
         "UpgradeCode" = "8:{F094CBE2-970B-436A-ABCF-971A9E5F5CED}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
