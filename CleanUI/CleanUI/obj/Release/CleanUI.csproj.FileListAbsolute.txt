@@ -69,4 +69,3 @@ C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.csproj.CopyComplete
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.exe
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.pdb
-C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.csprojAssemblyReference.cache

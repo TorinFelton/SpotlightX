@@ -73,7 +73,6 @@ namespace CleanUI
         public MainWindow()
         {
             InitializeComponent();
-
             this.Activated += new EventHandler(CommandTb_GotFocus);
             this.Deactivated += new EventHandler(CommandTb_LostFocus);
             CommandTb.GotFocus += new RoutedEventHandler(CommandTb_GotFocus);
@@ -83,9 +82,9 @@ namespace CleanUI
             {
                 var settings = new JsonSerializerSettings();
                 FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(SettingsPath));
-            } catch
+            } catch (Exception e)
             {
-                MessageBox.Show("Couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors.");
+                MessageBox.Show("Couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
                 Application.Current.Shutdown();
             }
 
@@ -310,15 +309,13 @@ namespace CleanUI
             else if (type == "ADDPATH")
             {
                 FSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(SettingsPath, "   " + JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
-                // I've added "   " to the front as WriteAllText kept cutting off the first 3 chars for some reason, making it invalid json.
+                System.IO.File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
             else if (type == "REMOVEPATH")
             {
                 FSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(SettingsPath, "   " + JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
-                // I've added "   " to the front as WriteAllText kept cutting off the first 3 chars for some reason, making it invalid json.
+                System.IO.File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
         }
