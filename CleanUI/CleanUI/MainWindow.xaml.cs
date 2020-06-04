@@ -32,13 +32,15 @@ namespace CleanUI
 
         private static bool FirstActivation = true;
         private Settings FSettings;
-        private Dictionary<string, Command> ValidCommands;
+        private Dictionary<string, Command> ValidCommands = new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
         private List<String> AutocompleteList = new List<String>();
         private List<String> MatchesList = new List<String>();
         private int MatchIndex = 0;
         private bool MultipleAutocompleteOptions = false;
         private List<String> ProgramList = new List<String>();
         private Dictionary<String, String> ProgramPaths = new Dictionary<String, String>(StringComparer.InvariantCultureIgnoreCase);
+        private string SettingsPath = Directory.GetCurrentDirectory() + @"\config\settings.json";
+        private bool ClearOnClick = true;
         private bool recentLaunch = false;
         /*
          *  recentLaunch var is being used to a strange event that kept happening: 
@@ -77,19 +79,51 @@ namespace CleanUI
             CommandTb.GotFocus += new RoutedEventHandler(CommandTb_GotFocus);
             CommandTb.LostFocus += new RoutedEventHandler(CommandTb_LostFocus);
 
-            var settings = new JsonSerializerSettings();
+            try
+            {
+                var settings = new JsonSerializerSettings();
+                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(SettingsPath));
+            } catch
+            {
+                MessageBox.Show("Couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors.");
+                Application.Current.Shutdown();
+            }
 
 
-            FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(Directory.GetCurrentDirectory() + @"\config\settings.json"));
+            foreach (string folder in FSettings.AppFolders) 
+            {
+                string[] files;
+                try
+                {
+                    files = Directory.GetFiles(folder);
+                } catch
+                {
+                    CommandTb.Text = "Couldn't load folder: " + folder;
+                    CommandError();
+                    files = new string[0];
+                }
 
-            ValidCommands = new Dictionary<string, Command>();
+                foreach (string file in files) { // Add all the programs in their folders to the autocomplete & valid commands list.
+                    Command toAdd = new Command();
+                    toAdd.Name = System.IO.Path.GetFileNameWithoutExtension(file);
+                    toAdd.Actions = new List<Dictionary<String, String>>();
+                    toAdd.Actions.Add(new Dictionary<string, string> {
+                        { "PROCESS", file }
+                    });
+                    toAdd.Icon = "Apps";
+                    ValidCommands.Add(toAdd.Name, toAdd);
+                    AutocompleteList.Add(toAdd.Name);
+                }
+            }
+            
+
             foreach (Command cmd in FSettings.Commands)
             {
                 ValidCommands.Add(cmd.Name, cmd);
                 AutocompleteList.Add(cmd.Name);
             }
 
-            string UserStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs";
+            string UserStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"; // Also automatically add all startmenu programs
             string StartMenuPath = System.IO.Path.GetPathRoot(Environment.SystemDirectory) + @"ProgramData\Microsoft\Windows\Start Menu\Programs";
 
             ProgramList.AddRange(Directory.GetFiles(StartMenuPath).Where(x => x.EndsWith("lnk")).ToList<string>());
@@ -121,7 +155,7 @@ namespace CleanUI
             ClearAutocompleteOptions();
             if (!FirstActivation)
             {
-                if (CommandTb.Text == "Type a command...")
+                if (ClearOnClick)
                 {
                     CommandTb.Text = "";
                 }
@@ -135,7 +169,10 @@ namespace CleanUI
         public void CommandTb_LostFocus(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(CommandTb.Text))
+            {
                 CommandTb.Text = "Type a command...";
+                ClearOnClick = true;
+            }
             this.Hide();
         }
 
@@ -218,7 +255,7 @@ namespace CleanUI
         {
             string[] SplitCommand = SplitArgs(CommandTb.Text);
 
-            if (ValidCommands.ContainsKey(SplitCommand[0].ToLower()) || ProgramPaths.ContainsKey(text.Trim()))
+            if (ValidCommands.ContainsKey(SplitCommand[0].Trim()) || ProgramPaths.ContainsKey(text.Trim()))
             {
                 try
                 {
@@ -229,9 +266,9 @@ namespace CleanUI
                     foreach (Dictionary<string, string> action in ValidCommands[SplitCommand[0].ToLower()].Actions)
                     {
                         CompleteAction(action.ElementAt(0).Key, action.ElementAt(0).Value);
-                        CommandTb.Text = "Type a command...";
                     }
-                    
+                    CommandTb.Text = "Type a command...";
+
                 }
                 catch
                 {
@@ -242,7 +279,9 @@ namespace CleanUI
                     CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.MicrosoftWindows;
                     CommandTb.Text = "Type a command...";
                 }
-            } else
+                ClearOnClick = true;
+            }
+            else
             {
                 CommandError();
             }
@@ -268,6 +307,26 @@ namespace CleanUI
             {
                 Process.Start(arguments.Trim());
             }
+            else if (type == "ADDPATH")
+            {
+                FSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
+                System.IO.File.WriteAllText(SettingsPath, "   " + JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                // I've added "   " to the front as WriteAllText kept cutting off the first 3 chars for some reason, making it invalid json.
+                Restart();
+            }
+            else if (type == "REMOVEPATH")
+            {
+                FSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
+                System.IO.File.WriteAllText(SettingsPath, "   " + JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                // I've added "   " to the front as WriteAllText kept cutting off the first 3 chars for some reason, making it invalid json.
+                Restart();
+            }
+        }
+
+        private void Restart()
+        {
+            Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
         }
 
         private string StringArgsToArgs(String arguments, String type) // type = command type, e.g PROCESS, SEARCH, so on. This is given to remove it from _allargs_ param
@@ -293,6 +352,7 @@ namespace CleanUI
 
         private void CommandTb_KeyDown(object sender, KeyEventArgs e)
         {
+            ClearOnClick = false;
             if (recentLaunch) recentLaunch = false;
             else
             {
@@ -378,6 +438,7 @@ namespace CleanUI
             if (!RegisterHotKey(helper.Handle, HOTKEY_ID, MOD_ALT, VK_S))
             {
                 MessageBox.Show("Couldn't register hotkey, closing application.");
+                Application.Current.Shutdown();
             }
         }
 

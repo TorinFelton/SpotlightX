@@ -1,12 +1,14 @@
 ﻿{
-  "commands": [
+  "Commands": [
     {
       "Name": "launch",
-      "Icon": "Rocket"
+      "Icon": "Rocket",
+      "Actions": null
     },
     {
       "Name": "volume",
-      "Icon": "VolumeMedium"
+      "Icon": "VolumeMedium",
+      "Actions": null
     },
     {
       "Name": "search",
@@ -27,15 +29,6 @@
       ]
     },
     {
-      "Name": "discord",
-      "Icon": "Discord",
-      "Actions": [
-        {
-          "PROCESS": "C:\\Users\\TorinPC\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc\\Discord.lnk"
-        }
-      ]
-    },
-    {
       "Name": "settings",
       "Icon": "Cog",
       "Actions": [
@@ -43,6 +36,26 @@
           "PROCESS": "ms-settings:_arg2_"
         }
       ]
+    },
+    {
+      "Name": "addpath",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "ADDPATH": "_arg2_"
+        }
+      ]
+    },
+    {
+      "Name": "removepath",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "REMOVEPATH": "_arg2_"
+        }
+      ]
     }
+  ],
+  "AppFolders": [
   ]
 }

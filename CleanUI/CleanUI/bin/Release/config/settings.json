@@ -1,5 +1,15 @@
 ﻿{
-  "commands": [
+  "Commands": [
+    {
+      "Name": "launch",
+      "Icon": "Rocket",
+      "Actions": null
+    },
+    {
+      "Name": "volume",
+      "Icon": "VolumeMedium",
+      "Actions": null
+    },
     {
       "Name": "search",
       "Icon": "SearchWeb",
@@ -26,6 +36,26 @@
           "PROCESS": "ms-settings:_arg2_"
         }
       ]
+    },
+    {
+      "Name": "addpath",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "ADDPATH": "_arg2_"
+        }
+      ]
+    },
+    {
+      "Name": "removepath",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "REMOVEPATH": "_arg2_"
+        }
+      ]
     }
+  ],
+  "AppFolders": [
   ]
 }

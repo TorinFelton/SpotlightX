@@ -9,6 +9,7 @@ namespace CleanUI
     class Settings
     {
         public List<Command> Commands { get; set; }
+        public List<String> AppFolders { get; set; }
     }
 
     class Command
