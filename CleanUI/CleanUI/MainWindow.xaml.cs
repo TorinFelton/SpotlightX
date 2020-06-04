@@ -38,7 +38,7 @@ namespace CleanUI
         private int MatchIndex = 0;
         private bool MultipleAutocompleteOptions = false;
         private List<String> ProgramList = new List<String>();
-        private Dictionary<String, String> ProgramPaths = new Dictionary<String, String>();
+        private Dictionary<String, String> ProgramPaths = new Dictionary<String, String>(StringComparer.InvariantCultureIgnoreCase);
         private bool recentLaunch = false;
         /*
          *  recentLaunch var is being used to a strange event that kept happening: 
