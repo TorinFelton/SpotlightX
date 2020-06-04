@@ -7,7 +7,6 @@ SpotlightX is a minimal, simplistic command bar that makes launching programs or
 The general motivation behind this was that sometimes the Windows 10 Search Bar can behave strangely and not do what the user would like, or doesn't have the shortcuts quickly available. For example, even if you type in the same few programs every day to launch, they take a while to be found and sometimes the first result that comes up is a Bing search instead of the program you have installed... SpotlightX doesn't do this, there is no weird determination of results or forcing Bing search down your throat, it just does what you need it to do and disappears after.
 
 ## Install
-Alpha V0.1 (Expect bugs!) https://github.com/TorinFelton/SpotlightX/tree/master/CleanUI/SpotlightSetup/Release
 
 | Release Version | Download |
 | --------------- |:-------------:|
