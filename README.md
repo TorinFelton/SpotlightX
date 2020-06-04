@@ -16,6 +16,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 ### ```addpath``` OR ```removepath```
 If you want to add more programs or files to be able to run, simply run the command ```addpath <put in a folder path>``` and every file in that folder will be permanently added to the command's AppFolders path in settings.json, meaning you can autocomplete and run anything in that folder.
 Running these two commands will restart the application as it must reload all the autocompletions added from adding those paths.
+NOTE: If you add an invalid path (typo, folder doesn't exist, etc.) then you will get the text `Couldn't load folder: <folder name you've typed wrong>`. SpotlightX will still continue to run after this, but it won't be able to include any of the files in the mistyped folder until you remove the wrong path (recommended you copy the path from the error message and do `removepath <path>`) and add the right one.
 
 ### ```search <something to search>```
   
