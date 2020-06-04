@@ -69,3 +69,10 @@ C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.csproj.CopyComplete
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.exe
 C:\Users\TorinPC\source\repos\WinBar\WinBar\CleanUI\CleanUI\obj\Release\CleanUI.pdb
+C:\Users\Owner\Source\Repos\SpotlightX\CleanUI\CleanUI\obj\Release\CleanUI.csprojAssemblyReference.cache
+C:\Users\Owner\Source\Repos\SpotlightX\CleanUI\CleanUI\obj\Release\App.g.cs
+C:\Users\Owner\Source\Repos\SpotlightX\CleanUI\CleanUI\obj\Release\CleanUI_MarkupCompile.cache
+C:\Users\Owner\Source\Repos\SpotlightX\CleanUI\CleanUI\obj\Release\CleanUI.exe
+C:\Users\Owner\Source\Repos\SpotlightX\CleanUI\CleanUI\obj\Release\CleanUI.pdb
+C:\Users\Owner\Source\Repos\SpotlightX\CleanUI\CleanUI\obj\Release\MainWindow.g.cs
+C:\Users\Owner\Source\Repos\SpotlightX\CleanUI\CleanUI\obj\Release\CleanUI_MarkupCompile.lref

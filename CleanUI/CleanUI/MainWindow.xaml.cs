@@ -4,44 +4,43 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Newtonsoft.Json;
 using System.Windows.Interop;
-using Microsoft.Win32;
-using Newtonsoft.Json.Serialization;
+using CleanUI.Interfaces;
+using CleanUI.Settings;
+using MahApps.Metro.IconPacks;
 
 namespace CleanUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    // ReSharper disable once RedundantExtendsListEntry
     public partial class MainWindow : Window
     {
+        private readonly ISettingsSaver _settingsSaver;
 
+        private static bool _firstActivation = true;
+        private readonly UiSettings _fSettings;
 
-        private static bool FirstActivation = true;
-        private Settings FSettings;
-        private Dictionary<string, Command> ValidCommands = new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
-        private List<String> AutocompleteList = new List<String>();
-        private List<String> MatchesList = new List<String>();
-        private int MatchIndex = 0;
-        private bool MultipleAutocompleteOptions = false;
-        private List<String> ProgramList = new List<String>();
-        private Dictionary<String, String> ProgramPaths = new Dictionary<String, String>(StringComparer.InvariantCultureIgnoreCase);
-        private string SettingsPath = Directory.GetCurrentDirectory() + @"\config\settings.json";
-        private bool ClearOnClick = true;
-        private bool recentLaunch = false;
+        private readonly Dictionary<string, Command> _validCommands =
+            new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
+
+        private readonly List<string> _autocompleteList = new List<string>();
+        private List<string> _matchesList = new List<string>();
+        private int _matchIndex;
+        private bool _multipleAutocompleteOptions;
+        private readonly List<string> _programList = new List<string>();
+
+        private readonly Dictionary<string, string> _programPaths =
+            new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+
+        private bool _clearOnClick = true;
+
+        private bool _recentLaunch;
         /*
          *  recentLaunch var is being used to a strange event that kept happening: 
          *  - When running the RunCommand method upon pressing enter and being a valid command/program, if Process.Start() was used to run
@@ -54,10 +53,10 @@ namespace CleanUI
 
         [DllImport("User32.dll")]
         private static extern bool RegisterHotKey(
-        [In] IntPtr hWnd,
-        [In] int id,
-        [In] uint fsModifiers,
-        [In] uint vk
+            [In] IntPtr hWnd,
+            [In] int id,
+            [In] uint fsModifiers,
+            [In] uint vk
         );
 
         [DllImport("User32.dll")]
@@ -66,102 +65,55 @@ namespace CleanUI
             [In] int id);
 
         private HwndSource _source;
-        private const int HOTKEY_ID = 9000;
+        private const int HotkeyId = 9000;
 
-
-
-        public MainWindow()
+        public MainWindow(ISettingsLoader settingsLoader, ISettingsSaver settingsSaver, ICommandLoader commandLoader,
+            IProgramListLoader programListLoader)
         {
+            _settingsSaver = settingsSaver;
             InitializeComponent();
-            this.Activated += new EventHandler(CommandTb_GotFocus);
-            this.Deactivated += new EventHandler(CommandTb_LostFocus);
-            CommandTb.GotFocus += new RoutedEventHandler(CommandTb_GotFocus);
-            CommandTb.LostFocus += new RoutedEventHandler(CommandTb_LostFocus);
+            Activated += CommandTb_GotFocus;
+            Deactivated += CommandTb_LostFocus;
+            CommandTb.GotFocus += CommandTb_GotFocus;
+            CommandTb.LostFocus += CommandTb_LostFocus;
 
-            try
-            {
-                var settings = new JsonSerializerSettings();
-                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(SettingsPath));
-            } catch (Exception e)
-            {
-                MessageBox.Show("Couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
-                Application.Current.Shutdown();
-            }
+            _fSettings = settingsLoader.LoadSettings();
 
-
-            foreach (string folder in FSettings.AppFolders) 
+            foreach (var toAdd in commandLoader.GetCommands(_fSettings))
             {
-                string[] files;
                 try
                 {
-                    files = Directory.GetFiles(folder);
-                } catch
+                    _validCommands.Add(toAdd.Name, toAdd);
+                    _autocompleteList.Add(toAdd.Name);
+                }
+                catch (CommandLoadException e)
                 {
-                    CommandTb.Text = "Couldn't load folder: " + folder;
+                    MessageBox.Show($"Error loading command. Exception is: {e.Message}");
                     CommandError();
-                    files = new string[0];
-                }
-
-                foreach (string file in files) { // Add all the programs in their folders to the autocomplete & valid commands list.
-                    Command toAdd = new Command();
-                    toAdd.Name = System.IO.Path.GetFileNameWithoutExtension(file);
-                    toAdd.Actions = new List<Dictionary<String, String>>();
-                    toAdd.Actions.Add(new Dictionary<string, string> {
-                        { "PROCESS", file }
-                    });
-                    toAdd.Icon = "Apps";
-                    ValidCommands.Add(toAdd.Name, toAdd);
-                    AutocompleteList.Add(toAdd.Name);
                 }
             }
-            
 
-            foreach (Command cmd in FSettings.Commands)
+            foreach (var program in programListLoader.GetProgramList())
             {
-                ValidCommands.Add(cmd.Name, cmd);
-                AutocompleteList.Add(cmd.Name);
+                _programPaths[Path.GetFileNameWithoutExtension(program).Trim()] =
+                    program; // Add file name (without extension) and file path to dict
+                _autocompleteList.Add(Path.GetFileNameWithoutExtension(program).Trim());
             }
-
-            string UserStartMenuPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Microsoft\Windows\Start Menu\Programs"; // Also automatically add all startmenu programs
-            string StartMenuPath = System.IO.Path.GetPathRoot(Environment.SystemDirectory) + @"ProgramData\Microsoft\Windows\Start Menu\Programs";
-
-            ProgramList.AddRange(Directory.GetFiles(StartMenuPath).Where(x => x.EndsWith("lnk")).ToList<string>());
-            ProgramList.AddRange(Directory.GetFiles(UserStartMenuPath).Where(x => x.EndsWith("lnk")).ToList<string>());
-
-            List<DirectoryInfo> StartMenuDirs = new DirectoryInfo(StartMenuPath).GetDirectories().Where(x => (x.Attributes & FileAttributes.Hidden) == 0).ToList<DirectoryInfo>();
-            StartMenuDirs.AddRange(new DirectoryInfo(UserStartMenuPath).GetDirectories().Where(x => (x.Attributes & FileAttributes.Hidden) == 0).ToList<DirectoryInfo>());
-
-            foreach (DirectoryInfo dir in StartMenuDirs)
-            {
-                ProgramList.AddRange(Directory.GetFiles(dir.FullName).Where(x => (x.Split(' ').Length < 5 && x.EndsWith("lnk") ) ) ); // Short-named program shortcuts to make sure the autocomplete isn't too long
-
-                
-            }
-
-
-
-            foreach (string prog in ProgramList)
-            {
-                ProgramPaths[System.IO.Path.GetFileNameWithoutExtension(prog).ToString().Trim()] = prog; // Add file name (without extension) and file path to dict
-                AutocompleteList.Add(System.IO.Path.GetFileNameWithoutExtension(prog).ToString().Trim());
-            }
-
         }
 
         public void CommandTb_GotFocus(object sender, EventArgs e)
         {
-
             ClearAutocompleteOptions();
-            if (!FirstActivation)
+            if (!_firstActivation)
             {
-                if (ClearOnClick)
+                if (_clearOnClick)
                 {
                     CommandTb.Text = "";
                 }
             }
             else
             {
-                FirstActivation = false;
+                _firstActivation = false;
             }
         }
 
@@ -170,24 +122,25 @@ namespace CleanUI
             if (string.IsNullOrWhiteSpace(CommandTb.Text))
             {
                 CommandTb.Text = "Type a command...";
-                ClearOnClick = true;
+                _clearOnClick = true;
             }
-            this.Hide();
+
+            Hide();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
-
+                DragMove();
         }
 
         private void EnterCommand(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape) // Escape, close the window
             {
-                this.Hide();
-            } else if (MultipleAutocompleteOptions && e.Key != Key.Tab)
+                Hide();
+            }
+            else if (_multipleAutocompleteOptions && e.Key != Key.Tab)
             {
                 ClearAutocompleteOptions();
             }
@@ -195,40 +148,44 @@ namespace CleanUI
 
         private void Autocomplete()
         {
-            if (MultipleAutocompleteOptions)
+            if (_multipleAutocompleteOptions)
             {
-                MatchIndex++;
-                if (MatchIndex == MatchesList.Count) MatchIndex = 0;
-                CommandTb.Text = MatchesList[MatchIndex] + " ";
-                changeIcon();
+                _matchIndex++;
+                if (_matchIndex == _matchesList.Count) _matchIndex = 0;
+                CommandTb.Text = _matchesList[_matchIndex] + " ";
+                ChangeIcon();
             }
             else
             {
                 if (CommandTb.Text.Split(' ').Length == 1)
                 {
-                    MatchesList = AutocompleteList.Where(x => x.ToLower().StartsWith(CommandTb.Text.ToLower())).ToList();
-                    MatchesList.Sort();
-                    MatchesList = MatchesList.Distinct().ToList();
-                    if (MatchesList.Count > 0)
+                    _matchesList = _autocompleteList.Where(x => x.ToLower().StartsWith(CommandTb.Text.ToLower()))
+                        .ToList();
+                    _matchesList.Sort();
+                    _matchesList = _matchesList.Distinct().ToList();
+                    if (_matchesList.Count > 0)
                     {
-                        CommandTb.Text = MatchesList[0] + " ";
-                        changeIcon();
-                        if (MatchesList.Count > 1)
+                        CommandTb.Text = _matchesList[0] + " ";
+                        ChangeIcon();
+                        if (_matchesList.Count > 1)
                         {
-                            MultipleAutocompleteOptions = true;
-                            MatchIndex = 0;
+                            _multipleAutocompleteOptions = true;
+                            _matchIndex = 0;
                         }
                     }
                 }
-                else // Autocompleting an argument, not a command
+                else // Auto-completing an argument, not a command
                 {
                     try
                     {
-                        Command thisCommand = ValidCommands[CommandTb.Text.Split(' ')[0]];
+                        Command thisCommand = _validCommands[CommandTb.Text.Split(' ')[0]];
                         if (thisCommand.Name == "settings") // Autocomplete Settings args
                         {
-                            String argument = CommandTb.Text.Split(' ')[1];
-                            List<string> autoLines = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() + @"\config\ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
+                            string argument = CommandTb.Text.Split(' ')[1];
+                            List<string> autoLines = File
+                                .ReadAllLines(Directory.GetCurrentDirectory() + @"\config\ms-settings.txt")
+                                .Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower()))
+                                .ToList();
                             // Only load into memory when needed, and it's not a large file - just a list of settings pages.
                             if (autoLines.Count > 0)
                             {
@@ -237,48 +194,52 @@ namespace CleanUI
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        //ignore
+                    }
                 }
             }
-            CommandTb.Select(CommandTb.Text.Length, 0); // move cursor to end of textbox
+
+            CommandTb.Select(CommandTb.Text.Length, 0); // move cursor to end of TextBox
         }
 
         private void ClearAutocompleteOptions()
         {
-            MatchesList.Clear();
-            MultipleAutocompleteOptions = false;
-            MatchIndex = 0;
+            _matchesList.Clear();
+            _multipleAutocompleteOptions = false;
+            _matchIndex = 0;
         }
 
         private void RunCommand(string text)
         {
-            string[] SplitCommand = SplitArgs(CommandTb.Text);
+            string[] splitCommand = SplitArgs(CommandTb.Text);
 
-            if (ValidCommands.ContainsKey(SplitCommand[0].Trim()) || ProgramPaths.ContainsKey(text.Trim()))
+            if (_validCommands.ContainsKey(splitCommand[0].Trim()) || _programPaths.ContainsKey(text.Trim()))
             {
                 try
                 {
-                    this.Hide();
-                
+                    Hide();
 
 
-                    foreach (Dictionary<string, string> action in ValidCommands[SplitCommand[0].ToLower()].Actions)
+                    foreach (Dictionary<string, string> action in _validCommands[splitCommand[0].ToLower()].Actions)
                     {
                         CompleteAction(action.ElementAt(0).Key, action.ElementAt(0).Value);
                     }
-                    CommandTb.Text = "Type a command...";
 
+                    CommandTb.Text = "Type a command...";
                 }
                 catch
                 {
-                    recentLaunch = true;
-                    this.Hide();
-                    CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.Apps;
-                    Process.Start(ProgramPaths[text.Trim()]);
-                    CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.MicrosoftWindows;
+                    _recentLaunch = true;
+                    Hide();
+                    CommandTypeIcon.Kind = PackIconMaterialKind.Apps;
+                    Process.Start(_programPaths[text.Trim()]);
+                    CommandTypeIcon.Kind = PackIconMaterialKind.MicrosoftWindows;
                     CommandTb.Text = "Type a command...";
                 }
-                ClearOnClick = true;
+
+                _clearOnClick = true;
             }
             else
             {
@@ -288,7 +249,7 @@ namespace CleanUI
 
         private void CommandError()
         {
-            CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.Exclamation;
+            CommandTypeIcon.Kind = PackIconMaterialKind.Exclamation;
         }
 
         private void CompleteAction(string type, string arguments)
@@ -297,10 +258,12 @@ namespace CleanUI
 
             if (type == "SEARCH")
             {
-                Process.Start("https://www.google.com/search?q=" + Uri.EscapeDataString(StringArgsToArgs(arguments, type)));
-            } else if (type == "EXIT")
+                Process.Start("https://www.google.com/search?q=" +
+                              Uri.EscapeDataString(StringArgsToArgs(arguments, type)));
+            }
+            else if (type == "EXIT")
             {
-                System.Windows.Application.Current.Shutdown();
+                Application.Current.Shutdown();
             }
             else if (type == "PROCESS")
             {
@@ -308,14 +271,14 @@ namespace CleanUI
             }
             else if (type == "ADDPATH")
             {
-                FSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                _fSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
+                _settingsSaver.SaveSettings(_fSettings);
                 Restart();
             }
             else if (type == "REMOVEPATH")
             {
-                FSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                _fSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
+                _settingsSaver.SaveSettings(_fSettings);
                 Restart();
             }
         }
@@ -326,31 +289,34 @@ namespace CleanUI
             Application.Current.Shutdown();
         }
 
-        private string StringArgsToArgs(String arguments, String type) // type = command type, e.g PROCESS, SEARCH, so on. This is given to remove it from _allargs_ param
+        private string
+            StringArgsToArgs(string arguments,
+                string type) // type = command type, e.g PROCESS, SEARCH, so on. This is given to remove it from _allargs_ param
         {
-            string[] SplitCommand = SplitArgs(CommandTb.Text); // split up args
+            string[] splitCommand = SplitArgs(CommandTb.Text); // split up args
             int index = 1; // 1st arg
-            string pattern = "";
+            string pattern;
 
-            foreach (string arg in SplitCommand)
+            foreach (string arg in splitCommand)
             {
-                string argnum = "_arg" + index.ToString() + "_";
-                pattern = @"\b" + argnum + @"\b";
+                string argNum = "_arg" + index + "_";
+                pattern = @"\b" + argNum + @"\b";
                 arguments = Regex.Replace(arguments, pattern, arg, RegexOptions.IgnoreCase);
                 index++;
             }
 
             string allargs = @"_allargs_";
             pattern = @"\b" + allargs + @"\b";
-            arguments = Regex.Replace(arguments, pattern, CommandTb.Text.Substring(type.Length), RegexOptions.IgnoreCase);
+            arguments = Regex.Replace(arguments, pattern, CommandTb.Text.Substring(type.Length),
+                RegexOptions.IgnoreCase);
 
             return arguments;
         }
 
         private void CommandTb_KeyDown(object sender, KeyEventArgs e)
         {
-            ClearOnClick = false;
-            if (recentLaunch) recentLaunch = false;
+            _clearOnClick = false;
+            if (_recentLaunch) _recentLaunch = false;
             else
             {
                 if (e.Key == Key.Enter) // Enter the command, run it
@@ -358,55 +324,60 @@ namespace CleanUI
                     RunCommand(CommandTb.Text);
                 }
                 else if (e.Key == Key.Tab)
-                { // Tab to autocomplete word if possible
+                {
+                    // Tab to autocomplete word if possible
                     Autocomplete();
                 }
                 else if (e.Key == Key.Space)
                 {
-                    changeIcon();
+                    ChangeIcon();
                 }
             }
         }
 
-        private void changeIcon()
+        private void ChangeIcon()
         {
-            string[] SplitCommand = SplitArgs(CommandTb.Text);
+            string[] splitCommand = SplitArgs(CommandTb.Text);
 
-            if (ValidCommands.ContainsKey(SplitCommand[0].ToLower()))
+            if (_validCommands.ContainsKey(splitCommand[0].ToLower()))
             {
                 try
                 {
-                    CommandTypeIcon.Kind = (MahApps.Metro.IconPacks.PackIconMaterialKind)Enum.Parse(typeof(MahApps.Metro.IconPacks.PackIconMaterialKind), ValidCommands[SplitCommand[0].ToLower()].Icon);
+                    CommandTypeIcon.Kind = (PackIconMaterialKind) Enum.Parse(typeof(PackIconMaterialKind),
+                        _validCommands[splitCommand[0].ToLower()].Icon);
                     // This is ugly, but essentially it converts a string of an icon (e.g "Rocket") to MahApps.Metro.IconPacks.PackIconMaterialKind.Rocket and sets that as the new icon
                 }
-                catch (Exception e) { }
+                catch (Exception)
+                {
+                    // ignore
+                }
             }
-            else if (ProgramPaths.ContainsKey(CommandTb.Text.Trim())) // Startmenu program
+            else if (_programPaths.ContainsKey(CommandTb.Text.Trim())) // Start menu program
             {
-                CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.ArrowUpCircle;
+                CommandTypeIcon.Kind = PackIconMaterialKind.ArrowUpCircle;
             }
         }
 
         private void CommandTb_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!FirstActivation)
+            if (!_firstActivation)
             {
+                string[] splitCommand = SplitArgs(CommandTb.Text);
 
-                string[] SplitCommand = SplitArgs(CommandTb.Text);
-
-                if (!ValidCommands.ContainsKey(SplitCommand[0].ToLower()))
+                if (!_validCommands.ContainsKey(splitCommand[0].ToLower()))
                 {
-                    CommandTypeIcon.Kind = MahApps.Metro.IconPacks.PackIconMaterialKind.MicrosoftWindows;
+                    CommandTypeIcon.Kind = PackIconMaterialKind.MicrosoftWindows;
                 }
             }
         }
 
-        private String[] SplitArgs(String text)
+        private string[] SplitArgs(string text)
         {
-            Regex regex = new Regex("[ ]{2,}", RegexOptions.None); // Get rid of extra ' ' and replace it with only one space
+            Regex regex =
+                new Regex("[ ]{2,}", RegexOptions.None); // Get rid of extra ' ' and replace it with only one space
             string command = regex.Replace(text, " ");
-            String[] SplitCommand = command.Split(' '); // Split cmd args
-            return SplitCommand;
+            string[] splitCommand = command.Split(' '); // Split cmd args
+            return splitCommand;
         }
 
 
@@ -415,60 +386,62 @@ namespace CleanUI
             base.OnSourceInitialized(e);
             var helper = new WindowInteropHelper(this);
             _source = HwndSource.FromHwnd(helper.Handle);
-            _source.AddHook(HwndHook);
+            Debug.Assert(_source != null, nameof(_source) + " != null");
+            _source.AddHook(HWndHook);
             RegisterHotKey();
         }
 
         protected override void OnClosed(EventArgs e)
         {
-            _source.RemoveHook(HwndHook);
+            _source.RemoveHook(HWndHook);
             _source = null;
-            UnregisterHotKey();
+            UnRegisterHotKey();
             base.OnClosed(e);
         }
 
         private void RegisterHotKey()
         {
             var helper = new WindowInteropHelper(this);
-            const uint VK_S = 0x53;
-            const uint MOD_ALT = 0x0001;
-            if (!RegisterHotKey(helper.Handle, HOTKEY_ID, MOD_ALT, VK_S))
+            const uint vkS = 0x53;
+            const uint modAlt = 0x0001;
+            if (!RegisterHotKey(helper.Handle, HotkeyId, modAlt, vkS))
             {
                 MessageBox.Show("Couldn't register hotkey, closing application.");
                 Application.Current.Shutdown();
             }
         }
 
-        private void UnregisterHotKey()
+        private void UnRegisterHotKey()
         {
             var helper = new WindowInteropHelper(this);
-            UnregisterHotKey(helper.Handle, HOTKEY_ID);
+            UnregisterHotKey(helper.Handle, HotkeyId);
         }
 
-        private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private IntPtr HWndHook(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            const int WM_HOTKEY = 0x0312;
+            const int wmHotkey = 0x0312;
             switch (msg)
             {
-                case WM_HOTKEY:
+                case wmHotkey:
                     switch (wParam.ToInt32())
                     {
-                        case HOTKEY_ID:
+                        case HotkeyId:
                             OnHotKeyPressed();
                             handled = true;
                             break;
                     }
+
                     break;
             }
+
             return IntPtr.Zero;
         }
 
         private void OnHotKeyPressed()
         {
-            this.Show();
-            this.Activate();
+            Show();
+            Activate();
             CommandTb.Focus();
         }
-
     }
 }

@@ -15,7 +15,6 @@
         Topmost="True">
     <Grid>
         <Grid Name="MainGrid">
-
             <Border CornerRadius="10" Grid.RowSpan="2">
                 <Border.Background>
                     <LinearGradientBrush>
@@ -24,9 +23,6 @@
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
-
-
-
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                 <iconPacks:PackIconMaterial
                     Name="CommandTypeIcon"
@@ -52,10 +48,6 @@
                     PreviewKeyDown="CommandTb_KeyDown"
                     TextChanged="CommandTb_TextChanged"/>
             </StackPanel>
-
-
-
-
         </Grid>
     </Grid>
 </Window>
