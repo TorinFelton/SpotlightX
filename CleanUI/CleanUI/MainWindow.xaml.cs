@@ -39,7 +39,7 @@ namespace CleanUI
         private bool MultipleAutocompleteOptions = false;
         private List<String> ProgramList = new List<String>();
         private Dictionary<String, String> ProgramPaths = new Dictionary<String, String>(StringComparer.InvariantCultureIgnoreCase);
-        private string SettingsPath = Directory.GetCurrentDirectory() + @"\config\settings.json";
+        private string ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming\Microsoft\Windows\Start Menu\SpotlightXConfig\config\";
         private bool ClearOnClick = true;
         private bool recentLaunch = false;
         /*
@@ -81,7 +81,7 @@ namespace CleanUI
             try
             {
                 var settings = new JsonSerializerSettings();
-                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(SettingsPath));
+                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath + "Settings.json"));
             } catch (Exception e)
             {
                 MessageBox.Show("Couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
@@ -228,7 +228,7 @@ namespace CleanUI
                         if (thisCommand.Name == "settings") // Autocomplete Settings args
                         {
                             String argument = CommandTb.Text.Split(' ')[1];
-                            List<string> autoLines = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() + @"\config\ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
+                            List<string> autoLines = System.IO.File.ReadAllLines(ConfigPath + "ms-settings.txt").Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower())).ToList<string>();
                             // Only load into memory when needed, and it's not a large file - just a list of settings pages.
                             if (autoLines.Count > 0)
                             {
@@ -309,13 +309,13 @@ namespace CleanUI
             else if (type == "ADDPATH")
             {
                 FSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                System.IO.File.WriteAllText(ConfigPath + "settings.json", JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
             else if (type == "REMOVEPATH")
             {
                 FSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                System.IO.File.WriteAllText(ConfigPath + "settings.json", JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
         }
