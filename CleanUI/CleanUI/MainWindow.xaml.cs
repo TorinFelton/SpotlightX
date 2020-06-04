@@ -81,7 +81,7 @@ namespace CleanUI
             try
             {
                 var settings = new JsonSerializerSettings();
-                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath + "Settings.json"));
+                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath + "settings.json"));
             } catch (Exception e)
             {
                 MessageBox.Show("Couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
