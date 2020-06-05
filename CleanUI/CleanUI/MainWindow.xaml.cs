@@ -26,21 +26,6 @@ namespace CleanUI
         private static bool _firstActivation = true;
         private readonly UiSettings _fSettings;
 
-        private readonly Dictionary<string, Command> _validCommands =
-            new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
-
-        private readonly List<string> _autocompleteList = new List<string>();
-        private List<string> _matchesList = new List<string>();
-        private int _matchIndex;
-        private bool _multipleAutocompleteOptions;
-        private readonly List<string> _programList = new List<string>();
-
-        private readonly Dictionary<string, string> _programPaths =
-            new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-
-        private bool _clearOnClick = true;
-
-        private bool _recentLaunch;
         /*
          *  recentLaunch var is being used to a strange event that kept happening: 
          *  - When running the RunCommand method upon pressing enter and being a valid command/program, if Process.Start() was used to run
@@ -65,17 +50,36 @@ namespace CleanUI
             [In] int id);
 
         private HwndSource _source;
+        private readonly Dictionary<string, Command> _validCommands;
+        private readonly List<string> _autocompleteList;
+        private readonly Dictionary<string, string> _programPaths;
+        private bool _clearOnClick=true;
+        private bool _multipleAutocompleteOptions;
+        private int _matchIndex;
+        private List<string> _matchesList;
+        private bool _recentLaunch;
         private const int HotkeyId = 9000;
 
         public MainWindow(ISettingsLoader settingsLoader, ISettingsSaver settingsSaver, ICommandLoader commandLoader,
             IProgramListLoader programListLoader)
         {
-            _settingsSaver = settingsSaver;
+            if (settingsLoader == null) throw new ArgumentNullException(nameof(settingsLoader));
+            if (settingsSaver == null) throw new ArgumentNullException(nameof(settingsSaver));
+            if (commandLoader == null) throw new ArgumentNullException(nameof(commandLoader));
+            if (programListLoader == null) throw new ArgumentNullException(nameof(programListLoader));
+
             InitializeComponent();
             Activated += CommandTb_GotFocus;
             Deactivated += CommandTb_LostFocus;
             CommandTb.GotFocus += CommandTb_GotFocus;
             CommandTb.LostFocus += CommandTb_LostFocus;
+
+            _validCommands = new Dictionary<string, Command>();
+            _autocompleteList = new List<string>();
+            _programPaths = new Dictionary<string, string>();
+            _matchesList = new List<string>();
+            
+            _settingsSaver = settingsSaver;
 
             _fSettings = settingsLoader.LoadSettings();
 
@@ -183,9 +187,9 @@ namespace CleanUI
                         {
                             string argument = CommandTb.Text.Split(' ')[1];
                             List<string> autoLines = File
-                                .ReadAllLines(Directory.GetCurrentDirectory() + @"\config\ms-settings.txt")
-                                .Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower()))
-                                .ToList();
+                                    .ReadAllLines(Directory.GetCurrentDirectory() + @"\config\ms-settings.txt")
+                                    .Where(settingLine => settingLine.Substring(12).StartsWith(argument.ToLower()))
+                                    .ToList();
                             // Only load into memory when needed, and it's not a large file - just a list of settings pages.
                             if (autoLines.Count > 0)
                             {
