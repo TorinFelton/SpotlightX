@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotlightX</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aguafina+Script">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alex+Brush">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allan">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allura">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="assets/css/button.css">
+    <link rel="stylesheet" href="assets/css/Header-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="highlight-clean" style="padding-top:100px;padding-bottom:0px;">
+        <div class="container">
+            <h1 style="text-align:center;font-family:Raleway, sans-serif;font-size:40px;">SpotlightX Help</h1>
+        </div>
+    </div>
+    <div class="highlight-blue" style="background-color:rgb(255,255,255);padding-bottom:15px;">
+        <div class="container">
+            <div class="justify-content-center intro" style="align-items:center;">
+                <h1 style="text-align:center;font-family:Raleway, sans-serif;font-size:32px;color:rgb(0,0,0);">Notes</h1><em style="color:rgb(0,0,0);text-align:center;margin-left:auto;margin-right:auto;display:block;font-size:15px;">This project is a work in progress, and this page will only be updated when stable releases are added. Currently this is in early stages, so functionality is limited and bugs are to be expected. If you have any questions or comments, please direct them towards the <a href="https://github.com/TorinFelton/SpotlightX/">SpotlightX GitHub Repository</a>.</em></div>
+        </div>
+    </div>
+    <div class="highlight-blue" style="background-color:rgb(255,255,255);padding-top:15px;">
+        <div class="container" style="padding:0px;">
+            <div class="justify-content-center intro" style="align-items:center;">
+                <h2 class="text-center" style="color:rgb(0,0,0);">Commands</h2><span style="color:rgb(49,181,255);display:block;text-align:center;font-size:20px;"><strong>search</strong>&nbsp;&lt;something to search&gt;</span><em style="color:rgb(0,0,0);text-align:center;margin-left:auto;margin-right:auto;display:block;font-size:15px;">Will open default browser and search configured search engine with whatever is input after the command.<br>Example: <strong>search </strong>SpotlightX Help<br><br></em>
+                <span
+                    style="color:rgb(49,181,255);display:block;text-align:center;"><strong>settings </strong>&lt;settings page to visit&gt;</span><em style="color:rgb(0,0,0);text-align:center;margin-left:auto;margin-right:auto;display:block;font-size:15px;">Will open the Windows setting page that you input as a second argument. Settings pages are autocompletable by pressing Tab.<br>Example: <strong>settings </strong>nightlight<br><br></em>
+                    <span
+                        style="color:rgb(49,181,255);display:block;text-align:center;"><strong>addpath</strong>&nbsp;&lt;full folder path to add&gt;</span><em style="color:rgb(0,0,0);text-align:center;margin-left:auto;margin-right:auto;display:block;font-size:15px;">Will add a path to the list of folders in which the programs/files/shortcuts stored can be run directly from the commandbar, and will restart the program to load this path.<br>Example: <strong>addpath </strong>C:\Users\etc<br><br></em>
+                        <span
+                            style="color:rgb(49,181,255);display:block;text-align:center;"><strong>removepath</strong>&nbsp;&lt;full folder path to remove&gt;</span><em style="color:rgb(0,0,0);text-align:center;margin-left:auto;margin-right:auto;display:block;font-size:15px;">Will remove a path from the previously mentioned list, and restart the program.<br>Example: <strong>removepath</strong>&nbsp;C:\Users\etc<br><br></em>
+                            <span
+                                style="color:rgb(49,181,255);display:block;text-align:center;"><strong>&lt;program or file&gt;</strong></span><em style="color:rgb(0,0,0);text-align:center;margin-left:auto;margin-right:auto;display:block;font-size:15px;">Provided that this program or file exists in the path list, they will be autocompletable via Tab and pressing enter will run the program or file given. Files will be opened with the system default program configured to open them with, (e.g .docx will open in Microsoft Word).<br>Example: <strong>Notepad </strong>or <strong>file.txt</strong></em></div>
+        </div>
+    </div>
+    <div class="highlight-blue" style="background-color:rgb(255,255,255);padding-top:0px;">
+        <div class="container">
+            <div class="justify-content-center intro" style="align-items:center;">
+                <h2 class="text-center" style="color:rgb(0,0,0);">Common Problems</h2><span style="color:rgb(49,181,255);display:block;text-align:center;font-size:20px;"><strong>"Could not register hotkey, exiting program..."</strong></span><p style="text-align:center;color:rgb(0,0,0);"><i>This message may appear upon launch of the program due to one of two things; the program may already be running and therefore cannot re-register the hotkey as it is in use, or there is another program which is using this hotkey. Press Alt + S to check if the SpotlightX bar already pops up, or if something else does.</i></p>
+<span style="color:rgb(49,181,255);display:block;text-align:center;font-size:20px;"><strong>"Couldn't load folder: &lt;folder path&gt;"</strong></span><p style="text-align:center;color:rgb(0,0,0);"><i>This message will appear when the program has attempted to find a folder at the given path from a previous <b>addpath</b> command, but has failed. Please check that the path is valid (no typos, strange characters, pointing to a file and not a folder, etc.) and make sure to use the command <b>removepath</b> to remove the incorrect path from the path list.</i></p>
+
+                <div
+                    style="justify-content:center;display:flex;align-items:center;"><a class="btn btn-primary p-2 mr-2 mb-2" role="button" href="https://github.com/TorinFelton/SpotlightX/issues">Submit an unkown error</a></div>
+        </div>
+    </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
