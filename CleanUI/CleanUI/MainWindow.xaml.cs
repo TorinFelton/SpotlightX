@@ -97,6 +97,7 @@ namespace CleanUI
 
             try
             {
+                Console.WriteLine(ConfigPath);
                 FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath));
             }
             catch (Exception e)
@@ -326,13 +327,14 @@ namespace CleanUI
             else if (type == "ADDPATH")
             {
                 FSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(ConfigPath + "settings.json", JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                Console.WriteLine("writing to: " + ConfigPath + " writing: " + JsonConvert.SerializeObject(FSettings, Formatting.Indented));
+                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
             else if (type == "REMOVEPATH")
             {
                 FSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
-                System.IO.File.WriteAllText(ConfigPath + "settings.json", JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
         }
