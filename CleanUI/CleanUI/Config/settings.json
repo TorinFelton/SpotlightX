@@ -1,0 +1,61 @@
+﻿{
+  "Commands": [
+    {
+      "Name": "launch",
+      "Icon": "Rocket",
+      "Actions": null
+    },
+    {
+      "Name": "volume",
+      "Icon": "VolumeMedium",
+      "Actions": null
+    },
+    {
+      "Name": "search",
+      "Icon": "SearchWeb",
+      "Actions": [
+        {
+          "SEARCH": "_allargs_"
+        }
+      ]
+    },
+    {
+      "Name": "exit",
+      "Icon": "ExitRun",
+      "Actions": [
+        {
+          "EXIT": "EXIT"
+        }
+      ]
+    },
+    {
+      "Name": "settings",
+      "Icon": "Cog",
+      "Actions": [
+        {
+          "PROCESS": "ms-settings:_arg2_"
+        }
+      ]
+    },
+    {
+      "Name": "addpath",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "ADDPATH": "_arg2_"
+        }
+      ]
+    },
+    {
+      "Name": "removepath",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "REMOVEPATH": "_arg2_"
+        }
+      ]
+    }
+  ],
+  "AppFolders": [
+  ]
+}
