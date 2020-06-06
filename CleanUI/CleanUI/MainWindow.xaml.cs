@@ -102,7 +102,7 @@ namespace CleanUI
             }
             catch (Exception e)
             {
-                MessageBox.Show("Couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
+                MessageBox.Show("SpotlightX couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
                 Application.Current.Shutdown();
             }
 
@@ -271,16 +271,18 @@ namespace CleanUI
         private void RunCommand(string text)
         {
             string[] SplitCommand = SplitArgs(CommandTb.Text);
-
-            if (ValidCommands.ContainsKey(SplitCommand[0].Trim()) || ProgramPaths.ContainsKey(text.Trim()))
+            foreach (string pro in ValidCommands.Keys) Console.WriteLine(pro);
+            if (ValidCommands.ContainsKey(SplitCommand[0].Trim()) || ProgramPaths.ContainsKey(text.Trim()) || ValidCommands.ContainsKey(text.Trim())) // If it is either a command word (e.g 'search'), a program name, or file
             {
                 try
                 {
                     this.Hide();
-                
 
+                    Command toRun;
+                    if (ValidCommands.ContainsKey(SplitCommand[0].Trim())) toRun = ValidCommands[SplitCommand[0].ToLower()]; // The command is a command word ('search')
+                    else toRun = ValidCommands[text.Trim()]; // The command is to open a file 
 
-                    foreach (Dictionary<string, string> action in ValidCommands[SplitCommand[0].ToLower()].Actions)
+                    foreach (Dictionary<string, string> action in toRun.Actions)
                     {
                         CompleteAction(action.ElementAt(0).Key, action.ElementAt(0).Value);
                     }
@@ -453,7 +455,7 @@ namespace CleanUI
             const uint MOD_ALT = 0x0001;
             if (!RegisterHotKey(helper.Handle, HOTKEY_ID, MOD_ALT, VK_S))
             {
-                MessageBox.Show("Couldn't register hotkey, closing application.");
+                MessageBox.Show("SpotlightX couldn't register hotkey, closing application. Is the app already running?");
                 Application.Current.Shutdown();
             }
         }
