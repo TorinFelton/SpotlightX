@@ -1,6 +1,8 @@
 # SpotlightX
 ![The bar upon launch looks like this, and will disappear when you click off or press Esc:](https://i.imgur.com/ZsW1MnZ.png)
 
+If you don't want to read a bunch of text, visit the [SpotlightX Site](torinfelton.github.io/SpotlightX/)
+
 
 SpotlightX is a minimal, simplistic command bar that makes launching programs or searching things a lot easier than they are with the default Windows 10 search bar. In the future, I intend to go beyond the basic feature set of the Windows 10 search bar and make even more useful commands, while maintaining the simple look and feel of the program throughout (and trying to keep it lightweight).
 
@@ -12,7 +14,6 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 | --------------- |:-------------:|
 | 0.0.1           | [Download](https://github.com/TorinFelton/SpotlightX/releases/tag/V0.0.1) |
 
-[SpotlightX Site](torinfelton.github.io/SpotlightX/)
 
 ## Commands & Basic Usage
 
