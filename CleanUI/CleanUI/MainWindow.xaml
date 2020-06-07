@@ -16,11 +16,11 @@
     <Grid>
         <Grid Name="MainGrid">
 
-            <Border CornerRadius="10" Grid.RowSpan="2">
+            <Border CornerRadius="10" Grid.RowSpan="2" Opacity="{Binding Path=Opacity}">
                 <Border.Background>
                     <LinearGradientBrush>
-                        <GradientStop Color="#7BE9F6" Offset="0.0"/>
-                        <GradientStop Color="#000eff" Offset="1.3"/>
+                        <GradientStop Color="{Binding Path=G1Col}" Offset="{Binding Path=G1Offset}"/>
+                        <GradientStop Color="{Binding Path=G2Col}" Offset="{Binding Path=G2Offset}"/>
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
@@ -33,7 +33,7 @@
                     Kind="MicrosoftWindows"
                     VerticalAlignment="Center" 
                     Margin="20,0,0,0"
-                    Foreground="White" Width="25" Height="25"
+                    Foreground="{Binding Path=TextCol}" Width="25" Height="25"
                 />
                 <TextBox 
                     Name="CommandTb"
@@ -47,7 +47,7 @@
                     Width="540"
                     HorizontalContentAlignment="Left" 
                     Opacity="0.5" Margin="20,0,0,0"
-                    Foreground="White"
+                    Foreground="{Binding Path=TextCol}"
                     CaretBrush="White" 
                     PreviewKeyDown="CommandTb_KeyDown"
                     TextChanged="CommandTb_TextChanged"/>

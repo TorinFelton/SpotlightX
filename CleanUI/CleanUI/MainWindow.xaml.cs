@@ -21,6 +21,7 @@ using System.Windows.Interop;
 using Microsoft.Win32;
 using Newtonsoft.Json.Serialization;
 
+
 namespace CleanUI
 {
     /// <summary>
@@ -28,7 +29,6 @@ namespace CleanUI
     /// </summary>
     public partial class MainWindow : Window
     {
-
 
         private static bool FirstActivation = true;
         private Settings FSettings;
@@ -89,22 +89,14 @@ namespace CleanUI
 
         public MainWindow()
         {
+            SetSettings();
+            this.DataContext = new MainWindowViewModel(FSettings);
+
             InitializeComponent();
             this.Activated += new EventHandler(CommandTb_GotFocus);
             this.Deactivated += new EventHandler(CommandTb_LostFocus);
             CommandTb.GotFocus += new RoutedEventHandler(CommandTb_GotFocus);
             CommandTb.LostFocus += new RoutedEventHandler(CommandTb_LostFocus);
-
-            try
-            {
-                Console.WriteLine(ConfigPath);
-                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath));
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("SpotlightX couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
-                Application.Current.Shutdown();
-            }
 
 
             foreach (string folder in FSettings.AppFolders) 
@@ -164,6 +156,19 @@ namespace CleanUI
                 AutocompleteList.Add(System.IO.Path.GetFileNameWithoutExtension(prog).ToString().Trim());
             }
 
+        }
+
+        public void SetSettings()
+        {
+            try
+            {
+                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("SpotlightX couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
+                Application.Current.Shutdown();
+            }
         }
 
         public void CommandTb_GotFocus(object sender, EventArgs e)
@@ -271,7 +276,7 @@ namespace CleanUI
         private void RunCommand(string text)
         {
             string[] SplitCommand = SplitArgs(CommandTb.Text);
-            foreach (string pro in ValidCommands.Keys) Console.WriteLine(pro);
+
             if (ValidCommands.ContainsKey(SplitCommand[0].Trim()) || ProgramPaths.ContainsKey(text.Trim()) || ValidCommands.ContainsKey(text.Trim())) // If it is either a command word (e.g 'search'), a program name, or file
             {
                 try
@@ -328,26 +333,51 @@ namespace CleanUI
             }
             else if (type == "ADDPATH")
             {
-                FSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
-                Console.WriteLine("writing to: " + ConfigPath + " writing: " + JsonConvert.SerializeObject(FSettings, Formatting.Indented));
+                FSettings.AppFolders.Add(arguments);
                 System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
             else if (type == "REMOVEPATH")
             {
-                FSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
+                FSettings.AppFolders.Remove(arguments);
+                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                Restart();
+            }
+            else if (type == "BACKGROUND")
+            {
+                string[] Gradients = arguments.Split(' '); // To save the operation being done 4 times on top of the other splits
+
+                // Colours
+                FSettings.Gradient1[0] = Gradients[0].Split(':')[0];
+                FSettings.Gradient2[0] = Gradients[1].Split(':')[0];
+
+                // Offsets
+                FSettings.Gradient1[1] = Gradients[0].Split(':')[1];
+                FSettings.Gradient2[1] = Gradients[1].Split(':')[1];
+                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                Restart();
+            }
+            else if (type == "OPACITY")
+            {
+                FSettings.Opacity = arguments;
+                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                Restart();
+            }
+            else if (type == "TEXTCOL")
+            {
+                FSettings.TextCol = arguments;
                 System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
         }
 
-        private void Restart()
+        public void Restart()
         {
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
 
-        private string StringArgsToArgs(String arguments, String type) // type = command type, e.g PROCESS, SEARCH, so on. This is given to remove it from _allargs_ param
+        public string StringArgsToArgs(String arguments, String type) // type = command type, e.g PROCESS, SEARCH, so on. This is given to remove it from _allargs_ param
         {
             string[] SplitCommand = SplitArgs(CommandTb.Text); // split up args
             int index = 1; // 1st arg
