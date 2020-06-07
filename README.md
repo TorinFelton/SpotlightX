@@ -12,6 +12,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 | --------------- |:-------------:|
 | 0.0.1           | [Download](https://github.com/TorinFelton/SpotlightX/releases/tag/V0.0.1) |
 
+[SpotlightX Site](torinfelton.github.io/SpotlightX/)
 
 ## Commands & Basic Usage
 
