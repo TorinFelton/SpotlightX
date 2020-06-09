@@ -30,11 +30,12 @@ Anything you type after "search" will be searched as a whole.
 
 ### ```program name```
   Typing in a program or a bit of a program name and pressing tab will autocomplete it (then run when pressing enter).
-  Programs will only be recognised if they are in the start menu folder for the user or pc.
+  Programs will only be recognised if they are in the start menu folder (user or PC) or one of the folder paths added.
 ### ```settings <setting>```
-  Setting pages are autocompletable
+  Launch straight into a settings page (e.g display, nightlight, personlization, etc.).
+  Setting pages are autocompletable.
 ### ```exit```
-  Fully kills the program, instead of just hiding it in the background
+  Fully kills the program, instead of just hiding it in the background.
   
 
 ## Current Features
