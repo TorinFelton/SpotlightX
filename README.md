@@ -13,6 +13,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 | Release Version | Download |
 | --------------- |:-------------:|
 | 0.0.1           | [Download](https://github.com/TorinFelton/SpotlightX/releases/tag/V0.0.1) |
+| 0.0.2           | [Download](https://github.com/TorinFelton/SpotlightX/releases/tag/V0.0.2) |
 
 
 ## Commands & Basic Usage
