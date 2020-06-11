@@ -20,23 +20,7 @@ The general motivation behind this was that sometimes the Windows 10 Search Bar 
 
 #### Press TAB to autocomplete a command or program name to run
 
-### ```addpath``` OR ```removepath```
-If you want to add more programs or files to be able to run, simply run the command ```addpath <put in a folder path>``` and every file in that folder will be permanently added to the command's AppFolders path in settings.json, meaning you can autocomplete and run anything in that folder.
-Running these two commands will restart the application as it must reload all the autocompletions added from adding those paths.
-NOTE: If you add an invalid path (typo, folder doesn't exist, etc.) then you will get the text `Couldn't load folder: <folder name you've typed wrong>`. SpotlightX will still continue to run after this, but it won't be able to include any of the files in the mistyped folder until you remove the wrong path (recommended you copy the path from the error message and do `removepath <path>`) and add the right one.
-
-### ```search <something to search>```
-  
-Anything you type after "search" will be searched as a whole.
-
-### ```program name```
-  Typing in a program or a bit of a program name and pressing tab will autocomplete it (then run when pressing enter).
-  Programs will only be recognised if they are in the start menu folder (user or PC) or one of the folder paths added.
-### ```settings <setting>```
-  Launch straight into a settings page (e.g display, nightlight, personlization, etc.).
-  Setting pages are autocompletable.
-### ```exit```
-  Fully kills the program, instead of just hiding it in the background.
+https://torinfelton.github.io/SpotlightX/help.html
   
 
 ## Current Features
@@ -49,12 +33,13 @@ Anything you type after "search" will be searched as a whole.
 - Search function for Google (though in future you'll be able to change search engine)
 - Ability to launch windows settings from simplistic command ("settings <settingpage>"), all settings page names are autocompletable.
   The autocompletion for these setting names has used the ms-settings URI list for all locations [here](https://github.com/TorinFelton/SpotlightX/blob/master/CleanUI/CleanUI/config/ms-settings.txt)
+- Ability to change background + text colour
 
 ## Goals/Upcoming Ideas
 
 - Custom commands implemented via JSON (hopefully with a UI for the user to edit the JSON with)
 - Custom actions for these commands to carry out (e.g run program, set setting, search something, etc.)
-- Ability to customise icons + style of bar (gradient, colouring, etc.)
+- (DONE) Ability to customise icons + style of bar (gradient, colouring, etc.)
 
 # General Look
 
