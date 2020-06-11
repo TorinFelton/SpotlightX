@@ -71,10 +71,17 @@ namespace CleanUI
         private string ConfigPath 
         { 
             get
-            { 
-                var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
-                MessageBox.Show(Constants.UserConfigPath + "Exists:" + System.IO.Directory.Exists(Constants.UserConfigPath) + folderPath);
-                
+            {
+                // This will allow you to run and develop the program with the example settings.json without worrying about the other installed versions of the program and their settings.json files being invalid.
+
+                #if DEBUG
+                    var folderPath = Constants.DefaultConfigPath;
+                    MessageBox.Show("Debug!");
+
+                #else
+                    var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+                #endif
+                MessageBox.Show(folderPath);
                 return System.IO.Path.Combine(folderPath, "settings.json");
             }
         }
