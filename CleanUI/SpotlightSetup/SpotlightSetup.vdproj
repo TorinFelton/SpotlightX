@@ -57,7 +57,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_3E01D902618B4869A8F8C790A38F0BE9"
+        "MsmKey" = "8:_3303F196B2B64D30917B8EDAF459FC29"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -473,12 +473,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3E01D902618B4869A8F8C790A38F0BE9"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3303F196B2B64D30917B8EDAF459FC29"
             {
-            "SourcePath" = "8:..\\..\\..\\..\\..\\..\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\SpotlightXConfig\\config\\settings.json"
+            "SourcePath" = "8:..\\CleanUI\\Config\\settings.json"
             "TargetName" = "8:settings.json"
             "Tag" = "8:"
-            "Folder" = "8:_DD31FB02813B4CC09A7A2E8FA5FFD726"
+            "Folder" = "8:_EE3EB1FC9CE641DF97A9DFF649D17D92"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -892,7 +892,7 @@
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_D4C0EDA6F34249D5973284C18AF17128"
                     {
                     "Name" = "8:SpotlightXConfig"
-                    "AlwaysCreate" = "11:FALSE"
+                    "AlwaysCreate" = "11:TRUE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_14B32BD204104DC6B7BA8C0F95246C26"
@@ -901,7 +901,7 @@
                             "{9EF0B969-E518-4E46-987F-47570745A589}:_DD31FB02813B4CC09A7A2E8FA5FFD726"
                             {
                             "Name" = "8:config"
-                            "AlwaysCreate" = "11:FALSE"
+                            "AlwaysCreate" = "11:TRUE"
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
                             "Property" = "8:_BF78B920E2B3469884767BF5CB6F2B63"
@@ -975,7 +975,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SpotlightX"
         "ProductCode" = "8:{39235695-08E0-46EE-8654-F469495F073E}"
-        "PackageCode" = "8:{BE70748D-134E-4B7B-9EE3-E18263F0381C}"
+        "PackageCode" = "8:{C5DEF30E-3212-4258-9C50-E7C1842CD082}"
         "UpgradeCode" = "8:{F094CBE2-970B-436A-ABCF-971A9E5F5CED}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
