@@ -21,6 +21,7 @@ using System.Windows.Interop;
 using Microsoft.Win32;
 using Newtonsoft.Json.Serialization;
 
+
 namespace CleanUI
 {
     /// <summary>
@@ -29,9 +30,9 @@ namespace CleanUI
     public partial class MainWindow : Window
     {
 
-
         private static bool FirstActivation = true;
         private Settings FSettings;
+        private MainWindowViewModel ViewModel;
         private Dictionary<string, Command> ValidCommands = new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
         private List<String> AutocompleteList = new List<String>();
         private List<String> MatchesList = new List<String>();
@@ -70,9 +71,16 @@ namespace CleanUI
         private string ConfigPath 
         { 
             get
-            { 
-                var folderPath = System.IO.File.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
-                
+            {
+                // This will allow you to run and develop the program with the example settings.json without worrying about the other installed versions of the program and their settings.json files being invalid.
+
+                #if DEBUG
+                    var folderPath = Constants.DefaultConfigPath;
+                    Console.WriteLine("WARNING: Loading in DEBUG mode, settings will be default & not user-specific.");
+
+                #else
+                    var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+                #endif
                 return System.IO.Path.Combine(folderPath, "settings.json");
             }
         }
@@ -81,30 +89,35 @@ namespace CleanUI
         {
             get
             {
-                var folderPath = System.IO.File.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+                var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
 
                 return System.IO.Path.Combine(folderPath, "ms-settings.txt");
             }
         }
 
+        private string StylePath
+        {
+            get
+            {
+                var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+
+                return System.IO.Path.Combine(folderPath, "style.json");
+            }
+        }
+
         public MainWindow()
         {
+            RefreshSettings();
+            RefreshStyle();
+
+            this.DataContext = ViewModel;
+
+
             InitializeComponent();
             this.Activated += new EventHandler(CommandTb_GotFocus);
             this.Deactivated += new EventHandler(CommandTb_LostFocus);
             CommandTb.GotFocus += new RoutedEventHandler(CommandTb_GotFocus);
             CommandTb.LostFocus += new RoutedEventHandler(CommandTb_LostFocus);
-
-            try
-            {
-                Console.WriteLine(ConfigPath);
-                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath));
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("SpotlightX couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
-                Application.Current.Shutdown();
-            }
 
 
             foreach (string folder in FSettings.AppFolders) 
@@ -164,6 +177,32 @@ namespace CleanUI
                 AutocompleteList.Add(System.IO.Path.GetFileNameWithoutExtension(prog).ToString().Trim());
             }
 
+        }
+
+        public void RefreshSettings()
+        {
+            try
+            {
+                FSettings = JsonConvert.DeserializeObject<Settings>(System.IO.File.ReadAllText(ConfigPath));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("SpotlightX couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
+                Application.Current.Shutdown();
+            }
+        }
+
+        public void RefreshStyle()
+        {
+            try
+            {
+                ViewModel = JsonConvert.DeserializeObject<MainWindowViewModel>(System.IO.File.ReadAllText(StylePath));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("SpotlightX couldn't load the config/style.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
+                Application.Current.Shutdown();
+            }
         }
 
         public void CommandTb_GotFocus(object sender, EventArgs e)
@@ -271,7 +310,7 @@ namespace CleanUI
         private void RunCommand(string text)
         {
             string[] SplitCommand = SplitArgs(CommandTb.Text);
-            foreach (string pro in ValidCommands.Keys) Console.WriteLine(pro);
+
             if (ValidCommands.ContainsKey(SplitCommand[0].Trim()) || ProgramPaths.ContainsKey(text.Trim()) || ValidCommands.ContainsKey(text.Trim())) // If it is either a command word (e.g 'search'), a program name, or file
             {
                 try
@@ -315,6 +354,7 @@ namespace CleanUI
         {
             arguments = StringArgsToArgs(arguments, type); // Replace all _arg1_ and _allargs_ vars to their values
 
+            // General Actions
             if (type == "SEARCH")
             {
                 Process.Start("https://www.google.com/search?q=" + Uri.EscapeDataString(StringArgsToArgs(arguments, type)));
@@ -326,28 +366,69 @@ namespace CleanUI
             {
                 Process.Start(arguments.Trim());
             }
+
+            // App-Specific Actions
             else if (type == "ADDPATH")
             {
-                FSettings.AppFolders.Add(StringArgsToArgs(arguments, type));
-                Console.WriteLine("writing to: " + ConfigPath + " writing: " + JsonConvert.SerializeObject(FSettings, Formatting.Indented));
+                FSettings.AppFolders.Add(arguments);
                 System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
             else if (type == "REMOVEPATH")
             {
-                FSettings.AppFolders.Remove(StringArgsToArgs(arguments, type));
+                FSettings.AppFolders.Remove(arguments);
                 System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
+            else if (type == "RELOAD")
+            {
+                Restart(); // Restart THIS program, not the whole computer - this is why the command is 'reload' not 'restart'
+            }
+
+            // Customisation Actions
+            else if (type == "BACKGROUND")
+            {
+                string[] Gradients = arguments.Split(' '); // To save the operation being done 4 times on top of the other splits
+
+                if (Gradients[0].Split(':').Length == 2 && Gradients[1].Split(':').Length == 2)
+                {
+
+                    // Colours
+                    ViewModel.G1Col = Gradients[0].Split(':')[0];
+                    ViewModel.G2Col = Gradients[1].Split(':')[0];
+
+
+                    // Offsets
+                    ViewModel.G1Offset = Gradients[0].Split(':')[1];
+                    ViewModel.G2Offset = Gradients[1].Split(':')[1];
+
+
+                    System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
+                    Restart();
+                }
+            }
+            else if (type == "OPACITY")
+            {
+                ViewModel.Opacity = arguments;
+                System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
+                Restart();
+            }
+            else if (type == "TEXTCOL")
+            {
+                ViewModel.TextCol = arguments;
+                System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
+                Restart();
+            }
+
         }
 
-        private void Restart()
+        public void Restart()
         {
             Process.Start(Application.ResourceAssembly.Location);
             Application.Current.Shutdown();
         }
 
-        private string StringArgsToArgs(String arguments, String type) // type = command type, e.g PROCESS, SEARCH, so on. This is given to remove it from _allargs_ param
+        public string StringArgsToArgs(String arguments, String type) // type = command type, e.g PROCESS, SEARCH, so on. This is given to remove it from _allargs_ param
         {
             string[] SplitCommand = SplitArgs(CommandTb.Text); // split up args
             int index = 1; // 1st arg

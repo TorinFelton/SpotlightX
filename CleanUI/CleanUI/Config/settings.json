@@ -54,6 +54,42 @@
           "REMOVEPATH": "_arg2_"
         }
       ]
+    },
+    {
+      "Name": "background",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "BACKGROUND": "_arg2_ _arg3_"
+        }
+      ]
+    },
+    {
+      "Name": "opacity",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "OPACITY": "_arg2_"
+        }
+      ]
+    },
+    {
+      "Name": "textcol",
+      "Icon": "Cogs",
+      "Actions": [
+        {
+          "TEXTCOL": "_arg2_"
+        }
+      ]
+    },
+    {
+      "Name": "reload",
+      "Icon": "Reload",
+      "Actions": [
+        {
+          "RELOAD":  ""
+        }
+      ]
     }
   ],
   "AppFolders": [
