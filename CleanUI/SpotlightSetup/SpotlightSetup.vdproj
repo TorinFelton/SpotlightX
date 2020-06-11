@@ -828,7 +828,7 @@
             "SourcePath" = "8:..\\CleanUI\\Config\\style.json"
             "TargetName" = "8:style.json"
             "Tag" = "8:"
-            "Folder" = "8:_EE3EB1FC9CE641DF97A9DFF649D17D92"
+            "Folder" = "8:_DD31FB02813B4CC09A7A2E8FA5FFD726"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -975,7 +975,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SpotlightX"
         "ProductCode" = "8:{39235695-08E0-46EE-8654-F469495F073E}"
-        "PackageCode" = "8:{5A76F381-1AA9-4FEB-9ADA-6DA3B38C1A9F}"
+        "PackageCode" = "8:{BE70748D-134E-4B7B-9EE3-E18263F0381C}"
         "UpgradeCode" = "8:{F094CBE2-970B-436A-ABCF-971A9E5F5CED}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1524,7 +1524,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_303BDD85C794425EB08893BAF0125E2A"
             {
-            "SourcePath" = "8:..\\CleanUI\\obj\\Debug\\CleanUI.exe"
+            "SourcePath" = "8:..\\CleanUI\\obj\\Release\\CleanUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EE3EB1FC9CE641DF97A9DFF649D17D92"
