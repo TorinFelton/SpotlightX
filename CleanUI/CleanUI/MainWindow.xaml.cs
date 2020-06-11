@@ -81,7 +81,6 @@ namespace CleanUI
                 #else
                     var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
                 #endif
-                MessageBox.Show(folderPath);
                 return System.IO.Path.Combine(folderPath, "settings.json");
             }
         }
