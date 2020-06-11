@@ -72,8 +72,8 @@ namespace CleanUI
         { 
             get
             { 
-                var folderPath = System.IO.File.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
-                MessageBox.Show(Constants.UserConfigPath + "Exists:" + System.IO.File.Exists(Constants.UserConfigPath) + folderPath);
+                var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+                MessageBox.Show(Constants.UserConfigPath + "Exists:" + System.IO.Directory.Exists(Constants.UserConfigPath) + folderPath);
                 
                 return System.IO.Path.Combine(folderPath, "settings.json");
             }
@@ -83,7 +83,7 @@ namespace CleanUI
         {
             get
             {
-                var folderPath = System.IO.File.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+                var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
 
                 return System.IO.Path.Combine(folderPath, "ms-settings.txt");
             }
@@ -93,7 +93,7 @@ namespace CleanUI
         {
             get
             {
-                var folderPath = System.IO.File.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+                var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
 
                 return System.IO.Path.Combine(folderPath, "style.json");
             }
