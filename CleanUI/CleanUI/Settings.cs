@@ -8,10 +8,6 @@ namespace CleanUI
 {
     class Settings
     {
-        public string TextCol { get; set; }
-        public string Opacity { get; set; }
-        public List<String> Gradient1 { get; set; }
-        public List<String> Gradient2 { get; set; }
         public List<Command> Commands { get; set; }
         public List<String> AppFolders { get; set; }
     }

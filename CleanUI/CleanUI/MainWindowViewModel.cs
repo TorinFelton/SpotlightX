@@ -15,14 +15,8 @@ namespace CleanUI
         public string G1Offset { get; set; }
         public string G2Offset { get; set; }
 
-        public MainWindowViewModel(Settings FSettings)
+        public MainWindowViewModel()
         {
-            G1Col = FSettings.Gradient1[0];
-            G2Col = FSettings.Gradient2[0];
-            G1Offset = FSettings.Gradient1[1];
-            G2Offset = FSettings.Gradient2[1];
-            Opacity = FSettings.Opacity;
-            TextCol = FSettings.TextCol;
         }
     }
 }

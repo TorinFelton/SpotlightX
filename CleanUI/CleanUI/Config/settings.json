@@ -1,14 +1,4 @@
 ﻿{
-  "TextCol": "White",
-  "Opacity": "1.0",
-  "Gradient1": [
-    "#ff1900",
-    "0.0"
-  ],
-  "Gradient2": [
-    "#ffc803",
-    "1.3"
-  ],
   "Commands": [
     {
       "Name": "launch",
@@ -89,6 +79,15 @@
       "Actions": [
         {
           "TEXTCOL": "_arg2_"
+        }
+      ]
+    },
+    {
+      "Name": "reload",
+      "Icon": "Reload",
+      "Actions": [
+        {
+          "RELOAD":  ""
         }
       ]
     }

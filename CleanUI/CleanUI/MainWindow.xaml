@@ -48,7 +48,7 @@
                     HorizontalContentAlignment="Left" 
                     Opacity="0.5" Margin="20,0,0,0"
                     Foreground="{Binding Path=TextCol}"
-                    CaretBrush="White" 
+                    CaretBrush="{Binding Path=TextCol}" 
                     PreviewKeyDown="CommandTb_KeyDown"
                     TextChanged="CommandTb_TextChanged"/>
             </StackPanel>

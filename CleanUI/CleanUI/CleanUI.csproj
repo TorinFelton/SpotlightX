@@ -129,6 +129,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Config\settings.json" />
+    <Content Include="Config\style.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="default.config">
       <SubType>Designer</SubType>
     </None>

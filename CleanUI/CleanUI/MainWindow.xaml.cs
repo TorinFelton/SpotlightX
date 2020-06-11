@@ -32,6 +32,7 @@ namespace CleanUI
 
         private static bool FirstActivation = true;
         private Settings FSettings;
+        private MainWindowViewModel ViewModel;
         private Dictionary<string, Command> ValidCommands = new Dictionary<string, Command>(StringComparer.InvariantCultureIgnoreCase);
         private List<String> AutocompleteList = new List<String>();
         private List<String> MatchesList = new List<String>();
@@ -87,10 +88,23 @@ namespace CleanUI
             }
         }
 
+        private string StylePath
+        {
+            get
+            {
+                var folderPath = System.IO.File.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
+
+                return System.IO.Path.Combine(folderPath, "style.json");
+            }
+        }
+
         public MainWindow()
         {
-            SetSettings();
-            this.DataContext = new MainWindowViewModel(FSettings);
+            RefreshSettings();
+            RefreshStyle();
+
+            this.DataContext = ViewModel;
+
 
             InitializeComponent();
             this.Activated += new EventHandler(CommandTb_GotFocus);
@@ -158,7 +172,7 @@ namespace CleanUI
 
         }
 
-        public void SetSettings()
+        public void RefreshSettings()
         {
             try
             {
@@ -167,6 +181,19 @@ namespace CleanUI
             catch (Exception e)
             {
                 MessageBox.Show("SpotlightX couldn't load the config/settings.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
+                Application.Current.Shutdown();
+            }
+        }
+
+        public void RefreshStyle()
+        {
+            try
+            {
+                ViewModel = JsonConvert.DeserializeObject<MainWindowViewModel>(System.IO.File.ReadAllText(StylePath));
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("SpotlightX couldn't load the config/style.json file, is it valid JSON? Redownload it or fix any JSON formatting errors. Exception: " + e);
                 Application.Current.Shutdown();
             }
         }
@@ -320,6 +347,7 @@ namespace CleanUI
         {
             arguments = StringArgsToArgs(arguments, type); // Replace all _arg1_ and _allargs_ vars to their values
 
+            // General Actions
             if (type == "SEARCH")
             {
                 Process.Start("https://www.google.com/search?q=" + Uri.EscapeDataString(StringArgsToArgs(arguments, type)));
@@ -331,6 +359,8 @@ namespace CleanUI
             {
                 Process.Start(arguments.Trim());
             }
+
+            // App-Specific Actions
             else if (type == "ADDPATH")
             {
                 FSettings.AppFolders.Add(arguments);
@@ -343,32 +373,42 @@ namespace CleanUI
                 System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
                 Restart();
             }
+            else if (type == "RELOAD")
+            {
+                Restart(); // Restart THIS program, not the whole computer - this is why the command is 'reload' not 'restart'
+            }
+
+            // Customisation Actions
             else if (type == "BACKGROUND")
             {
                 string[] Gradients = arguments.Split(' '); // To save the operation being done 4 times on top of the other splits
 
                 // Colours
-                FSettings.Gradient1[0] = Gradients[0].Split(':')[0];
-                FSettings.Gradient2[0] = Gradients[1].Split(':')[0];
+                ViewModel.G1Col = Gradients[0].Split(':')[0];
+                ViewModel.G2Col = Gradients[1].Split(':')[0];
+
 
                 // Offsets
-                FSettings.Gradient1[1] = Gradients[0].Split(':')[1];
-                FSettings.Gradient2[1] = Gradients[1].Split(':')[1];
-                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                ViewModel.G1Offset = Gradients[0].Split(':')[1];
+                ViewModel.G2Offset = Gradients[1].Split(':')[1];
+
+
+                System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
                 Restart();
             }
             else if (type == "OPACITY")
             {
-                FSettings.Opacity = arguments;
-                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                ViewModel.Opacity = arguments;
+                System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
                 Restart();
             }
             else if (type == "TEXTCOL")
             {
-                FSettings.TextCol = arguments;
-                System.IO.File.WriteAllText(ConfigPath, JsonConvert.SerializeObject(FSettings, Formatting.Indented)); // Append path to settings.json
+                ViewModel.TextCol = arguments;
+                System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
                 Restart();
             }
+
         }
 
         public void Restart()
