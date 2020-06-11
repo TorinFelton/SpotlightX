@@ -76,7 +76,7 @@ namespace CleanUI
 
                 #if DEBUG
                     var folderPath = Constants.DefaultConfigPath;
-                    MessageBox.Show("Debug!");
+                    Console.WriteLine("WARNING: Loading in DEBUG mode, settings will be default & not user-specific.");
 
                 #else
                     var folderPath = System.IO.Directory.Exists(Constants.UserConfigPath) ? Constants.UserConfigPath : Constants.DefaultConfigPath;
@@ -390,18 +390,22 @@ namespace CleanUI
             {
                 string[] Gradients = arguments.Split(' '); // To save the operation being done 4 times on top of the other splits
 
-                // Colours
-                ViewModel.G1Col = Gradients[0].Split(':')[0];
-                ViewModel.G2Col = Gradients[1].Split(':')[0];
+                if (Gradients[0].Split(':').Length == 2 && Gradients[1].Split(':').Length == 2)
+                {
+
+                    // Colours
+                    ViewModel.G1Col = Gradients[0].Split(':')[0];
+                    ViewModel.G2Col = Gradients[1].Split(':')[0];
 
 
-                // Offsets
-                ViewModel.G1Offset = Gradients[0].Split(':')[1];
-                ViewModel.G2Offset = Gradients[1].Split(':')[1];
+                    // Offsets
+                    ViewModel.G1Offset = Gradients[0].Split(':')[1];
+                    ViewModel.G2Offset = Gradients[1].Split(':')[1];
 
 
-                System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
-                Restart();
+                    System.IO.File.WriteAllText(StylePath, JsonConvert.SerializeObject(ViewModel, Formatting.Indented)); // Append path to style.json
+                    Restart();
+                }
             }
             else if (type == "OPACITY")
             {
