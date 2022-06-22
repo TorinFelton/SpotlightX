@@ -84,4 +84,10 @@ jobs:
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
+        
+    - name: Upload built exe
+      uses: actions/upload-artifact@v2
+      with:
+        name: bin
+        path: DentonsTrayApplication/bin
 
