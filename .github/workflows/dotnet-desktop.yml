@@ -82,7 +82,7 @@ jobs:
     - name: Restore the application
       working-directory: ./CleanUI
       run: | 
-        nuget.exe restore
+        nuget install CleanUI/packages.config -OutputDirectory ../packages
         msbuild $env:Solution_Name /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
