@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-      <Compile Exclude="SpotlightSetup/*" />
+      <Compile Remove="SpotlightSetup/*" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi, Version=4.0.0.308, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
