@@ -35,7 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
       <Compile Exclude="SpotlightSetup/*" />
-  </ItemGRoup>
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="AudioSwitcher.AudioApi, Version=4.0.0.308, Culture=neutral, PublicKeyToken=fda5729e2db3a64f, processorArchitecture=MSIL">
       <HintPath>..\packages\AudioSwitcher.AudioApi.4.0.0-alpha5\lib\net45\AudioSwitcher.AudioApi.dll</HintPath>
