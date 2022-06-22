@@ -91,5 +91,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: bin
-        path: CleanUI/bin/Debug/
+        path: CleanUI
 
