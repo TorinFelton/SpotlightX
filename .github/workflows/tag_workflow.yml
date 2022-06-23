@@ -1,4 +1,4 @@
-name: .NET Core Desktop
+name: Build & Upload Release on Tag
 
 on:
   create
@@ -54,11 +54,10 @@ jobs:
           CleanUI/CleanUI/obj
           
     - name: Add Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release 1.${{ github.run_number }}
-          
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: Alpha Version 0.${{ github.run_number }}
 
