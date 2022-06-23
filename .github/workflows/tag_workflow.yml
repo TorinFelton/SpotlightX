@@ -1,7 +1,9 @@
 name: Build & Upload Release on Tag
 
 on:
-  create
+  push:
+    branches: ["master"]
+    
   
  
 jobs:
